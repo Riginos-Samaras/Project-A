@@ -37,7 +37,8 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/node.o \
-	${OBJECTDIR}/nodeGraph.o
+	${OBJECTDIR}/nodeGraph.o \
+	${OBJECTDIR}/parser.o
 
 
 # C Compiler Flags
@@ -78,6 +79,11 @@ ${OBJECTDIR}/nodeGraph.o: nodeGraph.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/nodeGraph.o nodeGraph.cpp
+
+${OBJECTDIR}/parser.o: parser.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/parser.o parser.cpp
 
 # Subprojects
 .build-subprojects:

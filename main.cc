@@ -29,27 +29,23 @@
  */
 #include "node.h" 
 #include "nodeGraph.h" 
-
+#include "parser.h"
 using namespace::std;
 
 int main(int argc, char**argv) {
     // Prints welcome message...
     std::cout << "Welcome ...\n" << std::endl;
+    parser p1("data.txt");
+    p1.parseFile();
     
-    nodeGraph x;
-    x.insertNode(1,10);
-    x.insertNode(2,20);
-    x.insertNode(3,30);  
-    x.insertNode(4,40);
-    x.insertNode(5,100);
-    
-    
-    
-    x.insertEdge(1,2);
-    x.insertEdge(2,3);
-    x.insertEdge(2,4);
-    x.insertEdge(1,5);
-    
+    nodeGraph x; 
+     for(int i=0; i<p1.getWeightsVector().size();i++){
+        x.insertNode(p1.getWeightsVector()[i].name,p1.getWeightsVector()[i].value);
+    }
+    for(int i=0; i<p1.getDependenciesVector().size();i++){
+        x.insertEdge(p1.getDependenciesVector()[i].left,p1.getDependenciesVector()[i].right);
+    }
+     
     x.printNodes();
     //x.in_nodes.push_back(10);
     //x.in_nodes.push_back(5);
