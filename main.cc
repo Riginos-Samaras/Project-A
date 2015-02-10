@@ -35,26 +35,27 @@ using namespace::std;
 int main(int argc, char**argv) {
     // Prints welcome message...
     std::cout << "Welcome ..." << std::endl;
-    //node x(1,1); 
+    
     nodeGraph x;
-    node x1(1,"Riginos");
-    node x2(2,"Michael"); 
-    //Graph.insertNode(1,2);
-    x1.insertInputNode(&x2); 
-    x.insertNode(1,1);
-    std::cout<<x1.getName()<<x1.inNodes.front()->getName();
+    x.insertNode(1,10);
+    x.insertNode(2,20);
+    x.insertNode(3,30);  
+    x.insertNode(4,40);
+    
+    
+    
+    x.insertEdge(1,2);
+    x.insertEdge(2,3);
+    x.insertEdge(2,4);
+    
+    x.printNodes();
     //x.in_nodes.push_back(10);
     //x.in_nodes.push_back(5);
     //std::cout<<x.in_nodes.back();
     // Prints arguments...
 //    std::cout<<x.get_name() <<x.get_value()<< x.is_done();
    // x.insert_input_node(1,1)
-    if (argc > 1) {
-        std::cout << std::endl << "Arguments:" << std::endl;
-        for (int i = 1; i < argc; i++) {
-            std::cout << i << ": " << argv[i] << std::endl;
-        }
-    }
+ 
     
     return 0;
 }
