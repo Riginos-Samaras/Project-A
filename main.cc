@@ -34,19 +34,21 @@ using namespace::std;
 
 int main(int argc, char**argv) {
     // Prints welcome message...
-    std::cout << "Welcome ..." << std::endl;
+    std::cout << "Welcome ...\n" << std::endl;
     
     nodeGraph x;
     x.insertNode(1,10);
     x.insertNode(2,20);
     x.insertNode(3,30);  
     x.insertNode(4,40);
+    x.insertNode(5,100);
     
     
     
     x.insertEdge(1,2);
     x.insertEdge(2,3);
     x.insertEdge(2,4);
+    x.insertEdge(1,5);
     
     x.printNodes();
     //x.in_nodes.push_back(10);

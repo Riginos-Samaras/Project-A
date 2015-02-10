@@ -21,17 +21,17 @@ class node{
  private:
     int weight;
     bool done;
-    std::string name;  
+    int name;  
  public:
     std::vector<node*> inNodes; 
     std::vector<node*> outNodes; 
     
     node();
-    node(int,std::string);
+    node(int,int);
     int getValue();
     void setValue(int);
-    std::string getName();
-    void setName(std::string);
+    int getName();
+    void setName(int);
     bool getDone();
     void setDone(bool);  
     void insertInputNode(node*);

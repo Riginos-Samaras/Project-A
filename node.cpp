@@ -2,7 +2,7 @@
 
    node::node(){
    }
-   node::node(int val,std::string nam){
+   node::node(int val,int nam){
        weight=val;
        name=nam;
        done=false;
@@ -13,10 +13,10 @@
    void node::setValue(int val){
        weight=val;
    }
-   std::string node::getName(){
+   int node::getName(){
        return name;
    }
-   void node::setName(std::string nam){
+   void node::setName(int nam){
        name=nam;
    }
    bool node::getDone(){

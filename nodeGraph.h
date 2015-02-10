@@ -18,6 +18,7 @@ class nodeGraph{
         void insertNode(int,int);
         void insertEdge(int,int);
         void printNodes();
+        int getTotal(int);
 };
 #endif	/* NODEGRAPH_H */
 
