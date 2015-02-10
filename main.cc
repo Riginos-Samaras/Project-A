@@ -36,12 +36,12 @@ int main(int argc, char**argv) {
     // Prints welcome message...
     std::cout << "Welcome ..." << std::endl;
     //node x(1,1); 
-    //nodeGraph Graph();
+    nodeGraph x;
     node x1(1,"Riginos");
     node x2(2,"Michael"); 
     //Graph.insertNode(1,2);
     x1.insertInputNode(&x2); 
-    
+    x.insertNode(1,1);
     std::cout<<x1.getName()<<x1.inNodes.front()->getName();
     //x.in_nodes.push_back(10);
     //x.in_nodes.push_back(5);
