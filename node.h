@@ -22,6 +22,7 @@ class node{
     int weight;
     bool done;
     int name;  
+    int numOfFollowingTasks;
  public:
     std::vector<node*> inNodes; 
     std::vector<node*> outNodes; 
@@ -34,6 +35,8 @@ class node{
     void setName(int);
     bool getDone();
     void setDone(bool);  
+    void setNumFT(int);
+    int getNumFT();
     void insertInputNode(node*);
     void insertOutputNode(node*);
 };

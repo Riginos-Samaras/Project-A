@@ -18,7 +18,11 @@ class nodeGraph{
         void insertNode(int,int);
         void insertEdge(int,int);
         void printNodes();
-        int getTotal(int);
+        int getTotal(int); 
+        int findPathsOfFollowingTasks(int);
+        int numberOfFollowingTasks(int);
+        void setFollowingTasks();
+        
 };
 #endif	/* NODEGRAPH_H */
 

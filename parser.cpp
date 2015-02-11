@@ -12,10 +12,12 @@ const char* const DELIMITER = " ";
 parser::parser(){
 
     filename="data.txt";
+    parser::parseFile();
 }
 parser::parser(std::string fn){
 
     filename=fn;
+    parser::parseFile();
 }
 
 std::vector<weightNode> parser::getWeightsVector(){

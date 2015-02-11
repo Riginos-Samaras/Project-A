@@ -16,7 +16,9 @@
             std::cout<<"RW::Weight::Name->(Edges)\n-------------------";   
             for( int i= 0; i <nodeList.size(); ++i){
                 std::cout<<"\n";   
+                
                 std::cout<<this->getTotal(i+1);
+                std::cout<<"::"<<nodeList[i].getNumFT();
                 std::cout<<"::"<<nodeList[i].getValue();
                 std::cout<<"::"<<nodeList[i].getName();   
                  for( int j= 0; j <nodeList[i].outNodes.size(); ++j){
@@ -29,7 +31,7 @@
                  }
             }
         }
-        int nodeGraph::getTotal(int nodeName){
+        int nodeGraph::getTotal(int nodeName){//must fix
             node myNode=nodeList[nodeName-1];
             int sum=0;
             for(int i=0; i<myNode.outNodes.size();i++){
@@ -37,19 +39,42 @@
             }
             return sum+myNode.getValue();
         }
+        std::vector<int> mft;
+        int nodeGraph::findPathsOfFollowingTasks(int nodeName){
+        
+            node myNode=nodeList[nodeName-1];
+            int sum=0;
+            for(int i=0; i<myNode.outNodes.size();i++){
+                
+                sum = sum + findPathsOfFollowingTasks(myNode.outNodes[i]->getName());
+                mft.push_back(myNode.outNodes[i]->getName());
+                
+            }
+            return sum+1;
+        
+        }
          
-      /*
-int get_total(node x){
- 
-int len = x.out_nodes.length;
-int sum = 0;
- 
-for (int i = 0; i < len; ++i)
-{
-    sum = sum + get_total(x.out_nodes[i]);
- 
-}
- 
-    return sum + x.value;
- 
-}*/   
+        int nodeGraph::numberOfFollowingTasks(int taskname){
+            
+            int k = findPathsOfFollowingTasks(taskname);
+            int sum = 1;
+            sort( mft.begin(), mft.end() );
+            mft.erase( unique( mft.begin(), mft.end() ), mft.end() );
+            std::cout<<"\n";
+            for (int i=0;i<mft.size();i++){
+                sum++;
+                std::cout<<mft[i]<<",";
+            
+            }
+            mft.clear();
+            return sum;
+        }
+        
+        void nodeGraph::setFollowingTasks(){
+        
+            for(int i =0; i< nodeList.size();i++){
+            
+                nodeList[i].setNumFT(numberOfFollowingTasks(i+1));
+            
+            }
+        }

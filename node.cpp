@@ -19,6 +19,9 @@
    void node::setName(int nam){
        name=nam;
    }
+    void node::setNumFT(int num){
+       numOfFollowingTasks=num;
+   }
    bool node::getDone(){
        return done;
    }
@@ -31,4 +34,10 @@
    }
    void node::insertOutputNode(node* n){
        outNodes.push_back(n);
+   }
+   
+   int node::getNumFT(){
+   
+       return numOfFollowingTasks;
+   
    }
