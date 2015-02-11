@@ -22,7 +22,8 @@ class nodeGraph{
         int findPathsOfFollowingTasks(int);
         int numberOfFollowingTasks(int);
         void setFollowingTasks();
-        
+        std::vector<node> checkAvailable();
+        void vectorPrinter(std::vector<node>);
 };
 #endif	/* NODEGRAPH_H */
 

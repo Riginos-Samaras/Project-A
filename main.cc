@@ -25,10 +25,11 @@ int main(int argc, char**argv) {
   
     
      
-    x.printNodes();
+   // x.printNodes();
    
-  
-  
+    
+    
+    x.vectorPrinter(x.checkAvailable());
    
 
     //x.in_nodes.push_back(10);

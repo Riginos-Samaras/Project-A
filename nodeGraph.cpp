@@ -60,10 +60,10 @@
             int sum = 1;
             sort( mft.begin(), mft.end() );
             mft.erase( unique( mft.begin(), mft.end() ), mft.end() );
-            std::cout<<"\n";
+            
             for (int i=0;i<mft.size();i++){
                 sum++;
-                std::cout<<mft[i]<<",";
+                
             
             }
             mft.clear();
@@ -77,4 +77,39 @@
                 nodeList[i].setNumFT(numberOfFollowingTasks(i+1));
             
             }
+        }
+        
+        
+        std::vector<node> nodeGraph::checkAvailable(){
+           
+            std::vector<node> queue;
+            for(int i=0; i<nodeList.size();i++){
+            std::cout<<"villa";
+                int check = 1;
+                for(int k=0; k<nodeList[i].inNodes.size();k++){
+                    if(!nodeList[i].inNodes[k]->getDone()){
+                        check=0;
+                    }
+                    
+                }
+                
+                if(check){
+                    
+                    queue.push_back(nodeList[i]);
+                }
+            }
+        
+            return queue;
+        }
+        
+        void nodeGraph::vectorPrinter(std::vector<node> vec){
+            std::cout<<std::endl;
+            for(int i=0; i<vec.size();i++){
+                if(i==(vec.size()-1))
+                    std::cout<<vec[i].getName()<<std::endl;
+                else
+                    std::cout<<vec[i].getName()<<"->";
+                
+            }
+        
         }
