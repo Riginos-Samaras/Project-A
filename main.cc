@@ -1,6 +1,7 @@
 #include "node.h" 
 #include "nodeGraph.h" 
 #include "parser.h"
+#include "stationList.h"
 using namespace::std;
 
 int main(int argc, char**argv) {
@@ -23,13 +24,15 @@ int main(int argc, char**argv) {
     
     x.setFollowingTasks();
   
+    stationList s;
+    
     
      
    // x.printNodes();
    
     
-    
-    x.vectorPrinter(x.checkAvailable());
+   
+    x.vectorPrinter(x.getQueue());
    
 
     //x.in_nodes.push_back(10);

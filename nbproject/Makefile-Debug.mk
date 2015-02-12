@@ -39,7 +39,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/node.o \
 	${OBJECTDIR}/nodeGraph.o \
 	${OBJECTDIR}/parser.o \
-	${OBJECTDIR}/station.o
+	${OBJECTDIR}/station.o \
+	${OBJECTDIR}/stationList.o
 
 
 # C Compiler Flags
@@ -90,6 +91,11 @@ ${OBJECTDIR}/station.o: station.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/station.o station.cpp
+
+${OBJECTDIR}/stationList.o: stationList.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/stationList.o stationList.cpp
 
 # Subprojects
 .build-subprojects:

@@ -8,24 +8,39 @@
 #ifndef STATION_H
 #define	STATION_H
 
-class station{
+#include <vector>
+#include <string>
+#include <iostream>
+#include "nodeGraph.h"
 
+class station{
+private:
     int cycleTime;
     int idleTime;
     int stationTime;
+    int stationID;
     
-    vector<node*> tasks;
-    
-    void getCycleTime();
+    std::vector<node*> tasks;
+public:
+    station();
+    station(int);
+    int getCycleTime();
     void setCycleTime(int);
-    void getIdleTime();
-    void setIdleTime(int);
-    void getStationTime();
-    void setStationTime();
     
+    int getStationID();
+    void setStationID(int);
+    
+    int getIdleTime();
+    void setIdleTime(int);
+    
+    int getStationTime();
+    void setStationTime(int);
+    
+    bool canInsert(node);
+    
+    void insertTask(node);
 
-
-}
+};
 
 #endif	/* STATION_H */
 

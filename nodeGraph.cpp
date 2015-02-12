@@ -80,11 +80,11 @@
         }
         
         
-        std::vector<node> nodeGraph::checkAvailable(){
+        void nodeGraph::checkAvailable(){
            
-            std::vector<node> queue;
+            std::vector<node> q;
             for(int i=0; i<nodeList.size();i++){
-            std::cout<<"villa";
+           
                 int check = 1;
                 for(int k=0; k<nodeList[i].inNodes.size();k++){
                     if(!nodeList[i].inNodes[k]->getDone()){
@@ -95,11 +95,11 @@
                 
                 if(check){
                     
-                    queue.push_back(nodeList[i]);
+                    q.push_back(nodeList[i]);
                 }
             }
         
-            return queue;
+            queue = q;
         }
         
         void nodeGraph::vectorPrinter(std::vector<node> vec){
@@ -112,4 +112,19 @@
                 
             }
         
+        }
+        
+        std::vector<node> nodeGraph::getQueue(){
+            checkAvailable();
+            return queue;
+        
+        }
+        
+        void nodeGraph::removeNodeFromQueue(node nd){
+        
+            for(int i = 0; i < queue.size();i++){
+                
+                if(queue[i].getName()==nd.getName())
+                    queue.erase(queue.begin()+i);
+            }
         }
