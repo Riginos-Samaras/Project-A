@@ -1,10 +1,12 @@
 #include "station.h"
-
+using std::cout;
+using std::endl;
 
 station::station(){
     
-    stationTime = 0;
-    cycleTime= 100;    
+    cycleTime= 100;  
+    setStationTime(0);
+      
 }
 station::station(int cycle_time){
     
@@ -54,16 +56,29 @@ void station::setStationTime(int time){
     setIdleTime(cycleTime - stationTime);
 }
 
-bool station::canInsert(node nd){
-
-    return idleTime>=nd.getValue();
+bool station::canInsert(node* nd){
+    
+    return idleTime>=nd->getValue();
+    
 
 }
 
-void station::insertTask(node nd){
+void station::insertTask(node* nd){
+    
+    tasks.push_back(nd);
+    
+    setStationTime(getStationTime() + nd->getValue()); //updates station time & idle time
+    
+    
+}
 
-    tasks.push_back(&nd);
-    setStationTime(getStationTime() + nd.getValue()); //updates station time & idle time
-    
-    
+
+void station::printTasks(){
+     for(int i=0; i<tasks.size();i++){
+                if(i==(tasks.size()-1))
+                    cout<<tasks[i]->getName()<<endl;
+                else
+                    cout<<tasks[i]->getName()<<"->";
+                
+            }
 }

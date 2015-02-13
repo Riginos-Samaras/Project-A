@@ -13,20 +13,22 @@
 class nodeGraph{
     private:
          std::vector<node> nodeList;
-         std::vector<node> queue;
+         std::vector<node *> queue;
     public:  
         nodeGraph();  
         void insertNode(int,int);
         void insertEdge(int,int);
-        std::vector<node> getQueue();
-        void removeNodeFromQueue(node);
+        std::vector<node *> getQueue();
+        std::vector<node> getNodeList();
+        void removeNodeFromQueue(node*);
         void printNodes();
         int getTotal(int); 
         int findPathsOfFollowingTasks(int);
         int numberOfFollowingTasks(int);
         void setFollowingTasks();
         void checkAvailable();
-        void vectorPrinter(std::vector<node>);
+        void vectorPrinter(std::vector<node *>);
+        void vectorNodeListPrinter(std::vector<node >);
 };
 #endif	/* NODEGRAPH_H */
 

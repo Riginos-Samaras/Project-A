@@ -13,18 +13,17 @@ int main(int argc, char**argv) {
     parser p1("BOWMAN8.txt");
     
     //Creating the graph and populating it with the parsed data
-    nodeGraph x; 
+    
+    stationList s;
      for(int i=0; i<p1.getWeightsVector().size();i++){
-        x.insertNode(p1.getWeightsVector()[i].name,p1.getWeightsVector()[i].value);
+        s.x.insertNode(p1.getWeightsVector()[i].name,p1.getWeightsVector()[i].value);
     }
     for(int i=0; i<p1.getDependenciesVector().size();i++){
-        x.insertEdge(p1.getDependenciesVector()[i].left,p1.getDependenciesVector()[i].right);
+        s.x.insertEdge(p1.getDependenciesVector()[i].left,p1.getDependenciesVector()[i].right);
     }
     //
     
-    x.setFollowingTasks();
-  
-    stationList s;
+    s.x.setFollowingTasks();
     
     
      
@@ -32,9 +31,18 @@ int main(int argc, char**argv) {
    
     
    
-    x.vectorPrinter(x.getQueue());
-   
-
+    s.x.checkAvailable();
+    
+    s.pushTaskToStation(s.x.getQueue().front());
+    s.x.vectorPrinter(s.x.getQueue());
+    s.x.vectorNodeListPrinter(s.x.getNodeList());
+    s.printStations();
+     s.x.checkAvailable();
+    s.pushTaskToStation(s.x.getQueue().front());
+   s.x.checkAvailable();
+    s.x.vectorPrinter(s.x.getQueue());
+    s.printStations();
+    
     //x.in_nodes.push_back(10);
     //x.in_nodes.push_back(5);
     //std::cout<<x.in_nodes.back();

@@ -36,9 +36,11 @@ public:
     int getStationTime();
     void setStationTime(int);
     
-    bool canInsert(node);
+    bool canInsert(node*);
     
-    void insertTask(node);
+    void insertTask(node*);
+    
+    void printTasks();
 
 };
 

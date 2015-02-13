@@ -82,49 +82,73 @@
         
         void nodeGraph::checkAvailable(){
            
-            std::vector<node> q;
+            std::vector<node *> q;
             for(int i=0; i<nodeList.size();i++){
            
                 int check = 1;
-                for(int k=0; k<nodeList[i].inNodes.size();k++){
-                    if(!nodeList[i].inNodes[k]->getDone()){
-                        check=0;
+                if(!nodeList[i].getDone()){
+                    for(int k=0; k<nodeList[i].inNodes.size();k++){
+                        if(!nodeList[i].inNodes[k]->getDone()){
+                            check=0;
+                        }
+
                     }
-                    
-                }
-                
-                if(check){
-                    
-                    q.push_back(nodeList[i]);
+
+                    if(check){
+
+                        q.push_back(&nodeList[i]);
+                    }
                 }
             }
         
             queue = q;
         }
         
-        void nodeGraph::vectorPrinter(std::vector<node> vec){
+        void nodeGraph::vectorPrinter(std::vector<node *> vec){
             std::cout<<std::endl;
             for(int i=0; i<vec.size();i++){
                 if(i==(vec.size()-1))
-                    std::cout<<vec[i].getName()<<std::endl;
+                    std::cout<<vec[i]->getName()<<":"<<vec[i]->getDone()<<std::endl;
                 else
-                    std::cout<<vec[i].getName()<<"->";
+                    std::cout<<vec[i]->getName()<<":"<<vec[i]->getDone()<<"->";
+                
+            }
+        
+        }
+        void nodeGraph::vectorNodeListPrinter(std::vector<node > vec){
+            std::cout<<std::endl;
+            for(int i=0; i<vec.size();i++){
+                if(i==(vec.size()-1))
+                    std::cout<<vec[i].getName()<<":"<<vec[i].getDone()<<std::endl;
+                else
+                    std::cout<<vec[i].getName()<<":"<<vec[i].getDone()<<"->";
                 
             }
         
         }
         
-        std::vector<node> nodeGraph::getQueue(){
-            checkAvailable();
+        
+        
+        std::vector<node *> nodeGraph::getQueue(){
+           checkAvailable();
             return queue;
+        
+        }   
+        
+        std::vector<node > nodeGraph::getNodeList(){
+           
+            return nodeList;
         
         }
         
-        void nodeGraph::removeNodeFromQueue(node nd){
+        void nodeGraph::removeNodeFromQueue(node* nd){
         
             for(int i = 0; i < queue.size();i++){
                 
-                if(queue[i].getName()==nd.getName())
-                    queue.erase(queue.begin()+i);
+                if(queue[i]->getName()==nd->getName()){
+                    
+                    queue[i]->setDone(true);
+                   // queue.erase(queue.begin()+i);
+                }
             }
         }

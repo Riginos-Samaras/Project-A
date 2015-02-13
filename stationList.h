@@ -11,16 +11,20 @@
 #include <string>
 #include <iostream>
 #include "station.h"
+#include "nodeGraph.h"
 class stationList{
 
 private:
     std::vector<station> stations;
-    
+
 public:
+    nodeGraph x; 
     stationList();
     void insertStation();
-    void pushTaskToStation(node);
+    void pushTaskToStation(node*);
     void something(std::vector<node> &);
+    void printStations();
+    
 
 
 
