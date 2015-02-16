@@ -86,15 +86,18 @@ void parser::parseFile()
     // first token
     if (first_flag==0)
     {
-        cout<<"Number of data: "<<token[0]<<endl;
+        cout<<"Number of data: ";
+        cout<<token[0];
+        cout<<endl;
+        
         num_of_data = atoi(token[0]);
+        
         // cast the number of input data from char* to int
         first_flag = 1;
     }
-    for(int k=1;
-    k<=num_of_data;
-    k++)
+    for(int k=1;k<=num_of_data;k++)
     {
+        cout<<k<<endl;
         char buf2[MAX_CHARS_PER_LINE];
         fin.getline(buf2, MAX_CHARS_PER_LINE);
         // parse the line into blank-delimited tokens
@@ -122,12 +125,14 @@ void parser::parseFile()
         }
         parser::insertWeightToVector(k,atoi(token1[0]));
     }
+ 
     while(1)
     {
         char buf3[MAX_CHARS_PER_LINE];
         fin.getline(buf3, MAX_CHARS_PER_LINE);
         // parse the line into blank-delimited tokens
-        int n = 0;
+        
+        
         // a for-loop index
         // array to store memory addresses of the tokens in buf
         const char* token2[MAX_TOKENS_PER_LINE] =
@@ -136,9 +141,14 @@ void parser::parseFile()
         ;
         // initialize to 0
         token2[0] = strtok(buf3, ",");
+        int temp = atoi(token2[0]);
         // first token
         token2[1] = strtok(0, ",");
-        if(atoi(token2[0])==-1)break;
+         cout<<"::"<<temp<<endl;
+        if(temp==-1){
+            cout<<"hello"<<endl;
+        break;}
+       
         parser::insertDependencyToVector(atoi(token2[0]),atoi(token2[1]));
     }
 }

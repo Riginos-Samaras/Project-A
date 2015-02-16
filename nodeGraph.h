@@ -22,13 +22,13 @@ class nodeGraph{
         std::vector<node> getNodeList();
         void removeNodeFromQueue(node*);
         void printNodes();
-        int getTotal(int); 
-        int findPathsOfFollowingTasks(int);
-        int numberOfFollowingTasks(int);
+        void printNodesTemp();
+
         void setFollowingTasks();
         void checkAvailable();
         void vectorPrinter(std::vector<node *>);
         void vectorNodeListPrinter(std::vector<node >);
+        std::set<node*> MFT(int);
 };
 #endif	/* NODEGRAPH_H */
 

@@ -4,14 +4,15 @@ using std::endl;
 
 station::station(){
     
-    cycleTime= 100;  
+    cycleTime= 1394;  
     setStationTime(0);
       
 }
 station::station(int cycle_time){
     
-    stationTime = 0;
+    
     cycleTime= cycle_time;
+    setStationTime(0);
     
 }
 

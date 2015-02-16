@@ -31,4 +31,3 @@ public:
 };
 
 #endif	/* STATIONLIST_H */
-

@@ -12,7 +12,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
-
+#include <set>
 #ifdef	__cplusplus
 extern "C" {
 #endif
@@ -21,6 +21,7 @@ class node{
  private:
     int weight;
     bool done;
+    bool mftDone;
     int name;  
     int numOfFollowingTasks;
  public:
@@ -34,7 +35,9 @@ class node{
     int getName();
     void setName(int);
     bool getDone();
-    void setDone(bool);  
+    void setDone(bool); 
+    bool getMFTdone();
+    void setMFTdone(bool); 
     void setNumFT(int);
     int getNumFT();
     void insertInputNode(node*);

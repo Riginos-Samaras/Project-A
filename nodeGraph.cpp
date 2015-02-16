@@ -1,6 +1,8 @@
 #include "nodeGraph.h" 
 #include "node.h" 
 #include <iterator>
+using std::cout;
+using std::endl;
 
         nodeGraph::nodeGraph(){
         }
@@ -13,72 +15,54 @@
             nodeList[rightName-1].insertInputNode(&nodeList[leftName-1]);   
         }
         void nodeGraph::printNodes(){   
-            std::cout<<"RW::Weight::Name->(Edges)\n-------------------";   
+            cout<<"RW::Weight::Name->(Edges)\n-------------------";   
+            
             for( int i= 0; i <nodeList.size(); ++i){
-                std::cout<<"\n";   
+                cout<<"\n";   
                 
-                std::cout<<this->getTotal(i+1);
-                std::cout<<"::"<<nodeList[i].getNumFT();
-                std::cout<<"::"<<nodeList[i].getValue();
-                std::cout<<"::"<<nodeList[i].getName();   
+                //cout<<this->getTotal(i+1); //when big inputdata creates problem
+                cout<<"::"<<nodeList[i].getNumFT();
+                cout<<"::"<<nodeList[i].getValue();
+                cout<<"::"<<nodeList[i].getName();   
                  for( int j= 0; j <nodeList[i].outNodes.size(); ++j){
                      if(j==0)
-                         std::cout<<"->(";
+                         cout<<"->(";
                      if(j==nodeList[i].outNodes.size()-1)
-                         std::cout<<nodeList[i].outNodes[j]->getName()<<")"; 
+                         cout<<nodeList[i].outNodes[j]->getName()<<")"; 
                      else
-                         std::cout<<nodeList[i].outNodes[j]->getName()<<",";
+                         cout<<nodeList[i].outNodes[j]->getName()<<",";
                  }
             }
         }
-        int nodeGraph::getTotal(int nodeName){//must fix
-            node myNode=nodeList[nodeName-1];
-            int sum=0;
-            for(int i=0; i<myNode.outNodes.size();i++){
-                sum = sum + getTotal(myNode.outNodes[i]->getName());
-            }
-            return sum+myNode.getValue();
-        }
-        std::vector<int> mft;
-        int nodeGraph::findPathsOfFollowingTasks(int nodeName){
-        
-            node myNode=nodeList[nodeName-1];
-            int sum=0;
-            for(int i=0; i<myNode.outNodes.size();i++){
-                
-                sum = sum + findPathsOfFollowingTasks(myNode.outNodes[i]->getName());
-                mft.push_back(myNode.outNodes[i]->getName());
-                
-            }
-            return sum+1;
-        
-        }
-         
-        int nodeGraph::numberOfFollowingTasks(int taskname){
-            
-            int k = findPathsOfFollowingTasks(taskname);
-            int sum = 1;
-            sort( mft.begin(), mft.end() );
-            mft.erase( unique( mft.begin(), mft.end() ), mft.end() );
-            
-            for (int i=0;i<mft.size();i++){
-                sum++;
-                
-            
-            }
-            mft.clear();
-            return sum;
-        }
-        
+
         void nodeGraph::setFollowingTasks(){
         
             for(int i =0; i< nodeList.size();i++){
-            
-                nodeList[i].setNumFT(numberOfFollowingTasks(i+1));
+                
+                if(nodeList[i].inNodes.size()==0){
+                    
+                    MFT(nodeList[i].getName());}
             
             }
         }
         
+        std::set<node*> nodeGraph::MFT(int nodeID){
+           
+                std::set<node*> sum;
+                node* myNode = &nodeList[nodeID-1];
+                for (int i = 0; i<myNode->outNodes.size();i++){
+                    if(!myNode->outNodes[i]->getMFTdone())
+                        continue;
+                    std::set<node*> tempSum;
+                    tempSum = MFT(myNode->outNodes[i]->getName());
+                    sum.insert(tempSum.begin(),tempSum.end());
+
+                }
+        myNode->setMFTdone(true);
+        myNode->setNumFT(sum.size());
+        sum.insert(myNode);
+        return sum;
+        }
         
         void nodeGraph::checkAvailable(){
            
@@ -105,23 +89,24 @@
         }
         
         void nodeGraph::vectorPrinter(std::vector<node *> vec){
-            std::cout<<std::endl;
+            cout<<endl;
+            
             for(int i=0; i<vec.size();i++){
                 if(i==(vec.size()-1))
-                    std::cout<<vec[i]->getName()<<":"<<vec[i]->getDone()<<std::endl;
+                    cout<<vec[i]->getName()<<":"<<vec[i]->getDone()<<endl;
                 else
-                    std::cout<<vec[i]->getName()<<":"<<vec[i]->getDone()<<"->";
+                    cout<<vec[i]->getName()<<":"<<vec[i]->getDone()<<"->";
                 
             }
         
         }
         void nodeGraph::vectorNodeListPrinter(std::vector<node > vec){
-            std::cout<<std::endl;
+            cout<<endl;
             for(int i=0; i<vec.size();i++){
                 if(i==(vec.size()-1))
-                    std::cout<<vec[i].getName()<<":"<<vec[i].getDone()<<std::endl;
+                    cout<<vec[i].getName()<<":"<<vec[i].getDone()<<endl;
                 else
-                    std::cout<<vec[i].getName()<<":"<<vec[i].getDone()<<"->";
+                    cout<<vec[i].getName()<<":"<<vec[i].getDone()<<"->";
                 
             }
         
@@ -150,5 +135,14 @@
                     queue[i]->setDone(true);
                    // queue.erase(queue.begin()+i);
                 }
+            }
+        }
+        
+        void nodeGraph::printNodesTemp(){   
+            cout<<"YOYO";   
+            for( int i= 0; i <nodeList.size(); ++i){
+                cout<<"\n";   
+                cout<<"::"<<nodeList[i].getName();
+               
             }
         }

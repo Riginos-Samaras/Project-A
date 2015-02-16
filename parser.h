@@ -33,7 +33,6 @@ extern "C" {
     private:
         std::vector<weightNode> weights;
         std::vector<dependencyNode> dependencies;
-   
         std::string filename;
         
     public:

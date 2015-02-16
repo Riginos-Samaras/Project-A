@@ -1,4 +1,3 @@
-
 #include "stationList.h"
 using std::cout;
 using std::endl;
@@ -40,10 +39,10 @@ void stationList::pushTaskToStation(node *nd){
         
         }
         
-//        if(openNewStation){
-//            insertStation();
-//            pushTaskToStation(nd);
-//        }
+        if(openNewStation){
+            insertStation();
+            pushTaskToStation(nd);
+        }
     
     }
 
