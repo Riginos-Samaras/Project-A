@@ -10,7 +10,7 @@ int main(int argc, char**argv) {
     
     //creates an instance of a parser object.
     //construction overload to get the name of the file as an input.
-    parser p1("data/SCHOLL.IN2");
+    parser p1("data/BOWMAN8.IN2");
     
     //Creating the graph and populating it with the parsed data
     
@@ -23,30 +23,30 @@ int main(int argc, char**argv) {
     }
     //
     
-   
+   //s.x.printNodes();
     s.x.setFollowingTasks();
     
-    
+    cout<<"------------------------"<<endl;
      
- s.x.printNodes();
+   
    
     
    
   
     
-    s.pushTaskToStation(s.x.getQueue().front());
-    s.x.vectorPrinter(s.x.getQueue());
-    s.x.vectorNodeListPrinter(s.x.getNodeList());
-    s.printStations();
+   
+    //s.x.vectorPrinter(s.x.getQueue());
+   // s.x.vectorNodeListPrinter(s.x.getNodeList());
+    //s.printStations();
     
-    for(int i=0;i<296;i++){
-        cout<<endl<<"#"<<i<<"repeated"<<endl;
+    for(int i=0;i<8;i++){
     s.pushTaskToStation(s.x.getQueue().front());
-    s.x.vectorPrinter(s.x.getQueue());
-    s.printStations();
-    s.x.vectorNodeListPrinter(s.x.getNodeList());
+    //s.x.vectorPrinter(s.x.getQueue());
+   // s.printStations();
+   // s.x.vectorNodeListPrinter(s.x.getNodeList());
     }
-
-      
+        s.printStations();
+            cout<<"------------------------"<<endl;
+       s.x.printNodes();
     return 0;
 }

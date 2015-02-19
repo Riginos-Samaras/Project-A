@@ -7,12 +7,20 @@
        name=nam;
        done=false;
        mftDone=false;
+       RPWeight = 0;
+       numOfFollowingTasks=0;
    }
    int node::getValue(){
        return weight;
    }
    void node::setValue(int val){
        weight=val;
+   }
+   int node::getRPW(){
+       return RPWeight;
+   }
+   void node::setRPW(int val){
+       RPWeight=val;
    }
    int node::getName(){
        return name;

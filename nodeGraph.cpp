@@ -21,8 +21,9 @@ using std::endl;
                 cout<<"\n";   
                 
                 //cout<<this->getTotal(i+1); //when big inputdata creates problem
-                cout<<"::"<<nodeList[i].getNumFT();
-                cout<<"::"<<nodeList[i].getValue();
+               cout<<nodeList[i].getRPW();
+               cout<<"::"<<nodeList[i].getNumFT();
+                //cout<<"::"<<nodeList[i].getValue();
                 cout<<"::"<<nodeList[i].getName();   
                  for( int j= 0; j <nodeList[i].outNodes.size(); ++j){
                      if(j==0)
@@ -41,7 +42,10 @@ using std::endl;
                 
                 if(nodeList[i].inNodes.size()==0){
                     
-                    MFT(nodeList[i].getName());}
+                    MFT(nodeList[i].getName());
+                
+                    
+                }
             
             }
         }
@@ -50,16 +54,32 @@ using std::endl;
            
                 std::set<node*> sum;
                 node* myNode = &nodeList[nodeID-1];
+                int tempFT=0;
+                int tempRPG=0;
                 for (int i = 0; i<myNode->outNodes.size();i++){
-                    if(!myNode->outNodes[i]->getMFTdone())
-                        continue;
+                    if(myNode->outNodes[i]->getMFTdone()){
+                        tempRPG+=myNode->outNodes[i]->getRPW();
+                        
+                        tempFT+=myNode->outNodes[i]->getNumFT()+1;
+                        continue;}
                     std::set<node*> tempSum;
                     tempSum = MFT(myNode->outNodes[i]->getName());
                     sum.insert(tempSum.begin(),tempSum.end());
 
                 }
         myNode->setMFTdone(true);
-        myNode->setNumFT(sum.size());
+        myNode->setNumFT(sum.size()+tempFT);
+        
+        int total_sum_RPW=0;
+        for (std::set<node*>::iterator i = sum.begin(); i != sum.end(); i++) {
+  
+            
+            node* nd = *i;
+            total_sum_RPW+=nd->getValue();
+            
+        }
+        myNode->setRPW(total_sum_RPW+myNode->getValue()+tempRPG);
+        
         sum.insert(myNode);
         return sum;
         }

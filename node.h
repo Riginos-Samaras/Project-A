@@ -24,6 +24,7 @@ class node{
     bool mftDone;
     int name;  
     int numOfFollowingTasks;
+    int RPWeight;
  public:
     std::vector<node*> inNodes; 
     std::vector<node*> outNodes; 
@@ -34,6 +35,8 @@ class node{
     void setValue(int);
     int getName();
     void setName(int);
+    int getRPW();
+    void setRPW(int);
     bool getDone();
     void setDone(bool); 
     bool getMFTdone();
