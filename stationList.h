@@ -21,10 +21,10 @@ public:
     nodeGraph x; 
     stationList();
     void insertStation();
-    void pushTaskToStation(node*);
-    void something(std::vector<node> &);
+    void pushTaskToStation(node*); 
     void printStations();
-    
+    void policy(std::string);
+    node* decideNode(std::vector<node*>);
 
 
 

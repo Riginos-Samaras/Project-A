@@ -55,8 +55,41 @@ void stationList::pushTaskToStation(node *nd){
      }
  }
     
-void stationList::something(std::vector <node> &q){
 
-    
+ enum string_code {
+    LTF,
+    eBarney,
+    eWilma,
+    eBetty
+};
 
+string_code hashit (std::string const& inString) {
+    if (inString == "LTF") return LTF;
+    if (inString == "Barney") return eBarney;
 }
+
+    void stationList::policy(std::string policyName){
+        
+        switch(hashit(policyName)){
+            case LTF:
+                cout<<"LFT";                
+                break;
+            default: 
+                cout<<"Nothing";
+                break;
+         
+        }
+        
+        
+        
+        
+    
+    }
+    
+    
+     node* decideNode(std::vector<node*> nodeQueue){
+         node* decidedNode;
+//         for(int i=0;);
+//         nodeQueue[1]
+//                
+     }

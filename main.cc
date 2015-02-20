@@ -40,10 +40,13 @@ int main(int argc, char**argv) {
     //s.printStations();
     
     for(int i=0;i<8;i++){
-    s.pushTaskToStation(s.x.getQueue().front());
-    //s.x.vectorPrinter(s.x.getQueue());
-   // s.printStations();
-   // s.x.vectorNodeListPrinter(s.x.getNodeList());
+        node * decidedNode;
+//        decidedNode=s.decideNode(getQueue());
+        
+        s.pushTaskToStation(s.x.getQueue().front());
+        s.x.vectorPrinter(s.x.getQueue());
+        s.printStations();
+        s.x.vectorNodeListPrinter(s.x.getNodeList());
     }
         s.printStations();
             cout<<"------------------------"<<endl;
