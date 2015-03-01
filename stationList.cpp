@@ -56,40 +56,93 @@ void stationList::pushTaskToStation(node *nd){
  }
     
 
- enum string_code {
-    LTF,
-    eBarney,
-    eWilma,
-    eBetty
-};
-
-string_code hashit (std::string const& inString) {
-    if (inString == "LTF") return LTF;
-    if (inString == "Barney") return eBarney;
-}
-
-    void stationList::policy(std::string policyName){
+    void stationList::setPolicy(std::string policyName){
         
-        switch(hashit(policyName)){
-            case LTF:
-                cout<<"LFT";                
-                break;
-            default: 
-                cout<<"Nothing";
-                break;
+        if (policyName == "LTT") policy=LTT;
+        if (policyName == "STT") policy= STT;
+        if (policyName == "MFT") policy= MFT;
+        if (policyName == "LNFT") policy= LNFT;
+        if (policyName == "RPW") policy= RPW;
+        if (policyName == "VNS") policy= VNS;
          
-        }
-        
-        
-        
-        
-    
     }
     
     
-     node* decideNode(std::vector<node*> nodeQueue){
-         node* decidedNode;
-//         for(int i=0;);
-//         nodeQueue[1]
-//                
+     node* stationList::decideNode(std::vector<node*> nodeQueue){
+         
+         switch(policy){
+            case LTT:               
+                return LTTpolicy(nodeQueue);
+                break;
+                
+            case STT:   
+                 return STTpolicy(nodeQueue);            
+                break; 
+                
+             case MFT:   
+                 return MFTpolicy(nodeQueue);        
+                break;
+                
+            case LNFT:  
+                  return LNFTpolicy(nodeQueue);            
+                break;
+                
+            case RPW: 
+                 return RPWpolicy(nodeQueue);             
+                break; 
+                
+            case VNS:   
+                return VNSpolicy(nodeQueue);            
+                break;     
+                
+            default: 
+                std::cout<<"Nothing";
+                return LTTpolicy(nodeQueue); 
+                break;
+         
+        }
      }
+        
+    node* stationList::LTTpolicy(std::vector<node*> nodeQueue)
+    { 
+      return nodeQueue.front();
+    }
+    
+    node* stationList::STTpolicy(std::vector<node*> nodeQueue)
+    {   
+    
+      return nodeQueue.front();
+    
+    }
+    
+    node* stationList::MFTpolicy(std::vector<node*> nodeQueue)
+    {
+    
+      return nodeQueue.front();
+    
+    }
+    
+    node* stationList::LNFTpolicy(std::vector<node*> nodeQueue)
+    {
+    
+      return nodeQueue.front();
+    
+    }
+    
+    node* stationList::RPWpolicy(std::vector<node*> nodeQueue)
+    {
+      
+      return nodeQueue.front();
+      
+    }
+    
+    node* stationList::VNSpolicy(std::vector<node*> nodeQueue)
+    {
+    
+      return nodeQueue.front();
+    
+    }
+//
+    
+ 
+     

@@ -12,10 +12,23 @@
 #include <iostream>
 #include "station.h"
 #include "nodeGraph.h"
+
+
+ enum string_policy {
+    LTT,
+    STT,
+    MFT,
+    LNFT,
+    RPW,
+    VNS
+};
+
+
 class stationList{
 
 private:
     std::vector<station> stations;
+    string_policy policy;
 
 public:
     nodeGraph x; 
@@ -23,8 +36,14 @@ public:
     void insertStation();
     void pushTaskToStation(node*); 
     void printStations();
-    void policy(std::string);
+    void setPolicy(std::string);
     node* decideNode(std::vector<node*>);
+    node* LTTpolicy(std::vector<node*>);
+    node* STTpolicy(std::vector<node*>);
+    node* MFTpolicy(std::vector<node*>);
+    node* LNFTpolicy(std::vector<node*>);
+    node* RPWpolicy(std::vector<node*>);
+    node* VNSpolicy(std::vector<node*>);
 
 
 

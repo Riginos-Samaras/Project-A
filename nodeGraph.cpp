@@ -135,7 +135,7 @@ using std::endl;
         
         
         std::vector<node *> nodeGraph::getQueue(){
-           checkAvailable();
+            checkAvailable();
             return queue;
         
         }   
