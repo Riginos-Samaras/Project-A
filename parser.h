@@ -31,17 +31,24 @@ extern "C" {
     class parser{
     
     private:
+        
         std::vector<weightNode> weights;
         std::vector<dependencyNode> dependencies;
         std::string filename;
+        int datasetsize;
         
     public:
+        
         parser();
         parser(std::string);
+        
         std::vector<weightNode> getWeightsVector();
         std::vector<dependencyNode> getDependenciesVector();
         
         void parseFile();
+        
+        int getDatasetSize();
+        void setDatasetSize(int);
         
         void insertWeightToVector(int,int);
         void insertDependencyToVector(int,int);

@@ -23,6 +23,17 @@ std::vector<dependencyNode> parser::getDependenciesVector()
 {
     return dependencies;
 }
+void parser::setDatasetSize(int size){
+
+    datasetsize = size;
+    
+
+}
+int parser::getDatasetSize(){
+
+    return datasetsize;
+
+}
 void parser::insertWeightToVector(int name,int value)
 {
     weightNode node;

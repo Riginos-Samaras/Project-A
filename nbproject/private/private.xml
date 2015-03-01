@@ -9,9 +9,12 @@
         <group>
             <file>file:/Users/Dimitris/NetBeansProjects/Project-A/main.cc</file>
             <file>file:/Users/Dimitris/NetBeansProjects/Project-A/nodeGraph.cpp</file>
+            <file>file:/Users/Dimitris/NetBeansProjects/Project-A/parser.h</file>
             <file>file:/Users/Dimitris/NetBeansProjects/Project-A/node.cpp</file>
+            <file>file:/Users/Dimitris/NetBeansProjects/Project-A/stationList.cpp</file>
             <file>file:/Users/Dimitris/NetBeansProjects/Project-A/node.h</file>
             <file>file:/Users/Dimitris/NetBeansProjects/Project-A/parser.cpp</file>
+            <file>file:/Users/Dimitris/NetBeansProjects/Project-A/stationList.h</file>
         </group>
     </open-files>
 </project-private>

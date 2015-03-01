@@ -10,8 +10,10 @@ int main(int argc, char**argv) {
     
     //creates an instance of a parser object.
     //construction overload to get the name of the file as an input.
-    parser p1("data/BOWMAN8.IN2");
+    int datasetSize=0;
     
+    parser p1("data/BOWMAN8.IN2");
+    datasetSize = p1.getDatasetSize();
     //Creating the graph and populating it with the parsed data
     
     stationList s;
@@ -39,7 +41,7 @@ int main(int argc, char**argv) {
    // s.x.vectorNodeListPrinter(s.x.getNodeList());
     //s.printStations();
     
-    for(int i=0;i<8;i++){
+    for(int i=0;i<datasetSize;i++){
         node * decidedNode;
 //        decidedNode=s.decideNode(getQueue());
         
