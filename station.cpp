@@ -4,7 +4,7 @@ using std::endl;
 
 station::station(){
     
-    cycleTime= 1394;  
+    cycleTime= 1000;  
     setStationTime(0);
       
 }

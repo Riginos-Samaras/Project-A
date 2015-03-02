@@ -20,6 +20,7 @@
     MFT,
     LNFT,
     RPW,
+    LRPW,
     VNS
 };
 
@@ -29,6 +30,7 @@ class stationList{
 private:
     std::vector<station> stations;
     string_policy policy;
+    int cycleTime;
 
 public:
     nodeGraph x; 
@@ -43,7 +45,9 @@ public:
     node* MFTpolicy(std::vector<node*>);
     node* LNFTpolicy(std::vector<node*>);
     node* RPWpolicy(std::vector<node*>);
-    node* VNSpolicy(std::vector<node*>);
+    node* LRPWpolicy(std::vector<node*>);
+    std::vector<station> getStationList();
+    void setCycleTime(int);
 
 
 

@@ -15,23 +15,23 @@ using std::endl;
             nodeList[rightName-1].insertInputNode(&nodeList[leftName-1]);   
         }
         void nodeGraph::printNodes(){   
-            cout<<"RW::Weight::Name->(Edges)\n-------------------";   
+            std::cout<<"RW::Weight::Name->(Edges)\n-------------------";   
             
             for( int i= 0; i <nodeList.size(); ++i){
-                cout<<"\n";   
+                std::cout<<"\n";   
                 
                 //cout<<this->getTotal(i+1); //when big inputdata creates problem
-               cout<<nodeList[i].getRPW();
-               cout<<"::"<<nodeList[i].getNumFT();
+               std::cout<<nodeList[i].getRPW();
+               std::cout<<"::"<<nodeList[i].getNumFT();
                 //cout<<"::"<<nodeList[i].getValue();
-                cout<<"::"<<nodeList[i].getName();   
+                std::cout<<"::"<<nodeList[i].getName();   
                  for( int j= 0; j <nodeList[i].outNodes.size(); ++j){
                      if(j==0)
-                         cout<<"->(";
+                         std::cout<<"->(";
                      if(j==nodeList[i].outNodes.size()-1)
-                         cout<<nodeList[i].outNodes[j]->getName()<<")"; 
+                         std::cout<<nodeList[i].outNodes[j]->getName()<<")"; 
                      else
-                         cout<<nodeList[i].outNodes[j]->getName()<<",";
+                         std::cout<<nodeList[i].outNodes[j]->getName()<<",";
                  }
             }
         }
@@ -88,18 +88,18 @@ using std::endl;
            
             std::vector<node *> q;
             for(int i=0; i<nodeList.size();i++){
-           
+                 
                 int check = 1;
                 if(!nodeList[i].getDone()){
                     for(int k=0; k<nodeList[i].inNodes.size();k++){
+                        
                         if(!nodeList[i].inNodes[k]->getDone()){
                             check=0;
                         }
 
                     }
 
-                    if(check){
-
+                    if(check){ 
                         q.push_back(&nodeList[i]);
                     }
                 }
@@ -109,24 +109,24 @@ using std::endl;
         }
         
         void nodeGraph::vectorPrinter(std::vector<node *> vec){
-            cout<<endl;
+            std::cout<<std::endl;
             
             for(int i=0; i<vec.size();i++){
                 if(i==(vec.size()-1))
-                    cout<<vec[i]->getName()<<":"<<vec[i]->getDone()<<endl;
+                    std::cout<<vec[i]->getName()<<":"<<vec[i]->getDone()<<std::endl;
                 else
-                    cout<<vec[i]->getName()<<":"<<vec[i]->getDone()<<"->";
+                    std::cout<<vec[i]->getName()<<":"<<vec[i]->getDone()<<"->";
                 
             }
         
         }
         void nodeGraph::vectorNodeListPrinter(std::vector<node > vec){
-            cout<<endl;
+            std::cout<<std::endl;
             for(int i=0; i<vec.size();i++){
                 if(i==(vec.size()-1))
-                    cout<<vec[i].getName()<<":"<<vec[i].getDone()<<endl;
+                    std::cout<<vec[i].getName()<<":"<<vec[i].getDone()<<std::endl;
                 else
-                    cout<<vec[i].getName()<<":"<<vec[i].getDone()<<"->";
+                    std::cout<<vec[i].getName()<<":"<<vec[i].getDone()<<"->";
                 
             }
         
@@ -159,10 +159,10 @@ using std::endl;
         }
         
         void nodeGraph::printNodesTemp(){   
-            cout<<"YOYO";   
+            std::cout<<"YOYO";   
             for( int i= 0; i <nodeList.size(); ++i){
-                cout<<"\n";   
-                cout<<"::"<<nodeList[i].getName();
+                std::cout<<"\n";   
+                std::cout<<"::"<<nodeList[i].getName();
                
             }
         }

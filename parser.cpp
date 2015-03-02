@@ -103,6 +103,8 @@ void parser::parseFile()
         
         num_of_data = atoi(token[0]);
         
+        datasetsize = num_of_data;
+        
         // cast the number of input data from char* to int
         first_flag = 1;
     }

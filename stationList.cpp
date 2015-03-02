@@ -5,7 +5,7 @@ stationList::stationList(){}
 
 void stationList::insertStation(){
 
-    station *st = new station();
+    station *st = new station(cycleTime);
     stations.push_back(*st);
     
 }
@@ -63,6 +63,7 @@ void stationList::pushTaskToStation(node *nd){
         if (policyName == "MFT") policy= MFT;
         if (policyName == "LNFT") policy= LNFT;
         if (policyName == "RPW") policy= RPW;
+        if (policyName == "LRPW") policy= RPW;
         if (policyName == "VNS") policy= VNS;
          
     }
@@ -90,9 +91,14 @@ void stationList::pushTaskToStation(node *nd){
             case RPW: 
                  return RPWpolicy(nodeQueue);             
                 break; 
+             
+                 case LRPW: 
+                 return LRPWpolicy(nodeQueue);             
+                break; 
+                
                 
             case VNS:   
-                return VNSpolicy(nodeQueue);            
+                            
                 break;     
                 
             default: 
@@ -105,44 +111,115 @@ void stationList::pushTaskToStation(node *nd){
         
     node* stationList::LTTpolicy(std::vector<node*> nodeQueue)
     { 
-      return nodeQueue.front();
+         node* THEnode= nodeQueue.front();
+         
+         for(int i=0; i<nodeQueue.size(); i++)
+         {
+             if(THEnode->getValue()>nodeQueue[i]->getValue())
+             {
+                 THEnode=nodeQueue[i];
+             }
+         }
+         
+         return THEnode;
     }
     
     node* stationList::STTpolicy(std::vector<node*> nodeQueue)
     {   
     
-      return nodeQueue.front();
+      node* THEnode= nodeQueue.front();
+         
+         for(int i=0; i<nodeQueue.size(); i++)
+         {
+            if(THEnode->getValue()<nodeQueue[i]->getValue())
+             {
+                 THEnode=nodeQueue[i];
+             }
+         }
+         
+         return THEnode;
     
     }
     
     node* stationList::MFTpolicy(std::vector<node*> nodeQueue)
     {
     
-      return nodeQueue.front();
+      node* THEnode= nodeQueue.front();
+         
+         for(int i=0; i<nodeQueue.size(); i++)
+         {
+             if(THEnode->getNumFT()>nodeQueue[i]->getNumFT())
+             {
+                 THEnode=nodeQueue[i];
+             }
+         }
+         
+         return THEnode;
     
     }
     
     node* stationList::LNFTpolicy(std::vector<node*> nodeQueue)
     {
     
-      return nodeQueue.front();
+      node* THEnode= nodeQueue.front();
+         
+         for(int i=0; i<nodeQueue.size(); i++)
+         {
+             if(THEnode->getNumFT()<nodeQueue[i]->getNumFT())
+             {
+                 THEnode=nodeQueue[i];
+             }
+         }
+         
+         return THEnode;
     
     }
     
     node* stationList::RPWpolicy(std::vector<node*> nodeQueue)
     {
       
-      return nodeQueue.front();
+      node* THEnode= nodeQueue.front();
+         
+         for(int i=0; i<nodeQueue.size(); i++)
+         {
+              if(THEnode->getRPW()>nodeQueue[i]->getRPW())
+             {
+                 THEnode=nodeQueue[i];
+             }
+         }
+         
+         return THEnode;
       
     }
     
-    node* stationList::VNSpolicy(std::vector<node*> nodeQueue)
+       node* stationList::LRPWpolicy(std::vector<node*> nodeQueue)
     {
+      
+      node* THEnode= nodeQueue.front();
+         
+         for(int i=0; i<nodeQueue.size(); i++)
+         {
+              if(THEnode->getRPW()<nodeQueue[i]->getRPW())
+             {
+                 THEnode=nodeQueue[i];
+             }
+         }
+         
+         return THEnode;
+      
+    }
     
-      return nodeQueue.front();
+    
+    void stationList::setCycleTime(int time){
+    
+        cycleTime = time;
     
     }
 //
+    std::vector<station> stationList::getStationList(){
     
+        return stations;
+    
+    }
  
      
