@@ -35,10 +35,12 @@ private:
 public:
     nodeGraph x; 
     stationList();
+    ~stationList();
     void insertStation();
     void pushTaskToStation(node*); 
     void printStations();
     void setPolicy(std::string);
+    void initStations();
     node* decideNode(std::vector<node*>);
     node* LTTpolicy(std::vector<node*>);
     node* STTpolicy(std::vector<node*>);
@@ -46,6 +48,7 @@ public:
     node* LNFTpolicy(std::vector<node*>);
     node* RPWpolicy(std::vector<node*>);
     node* LRPWpolicy(std::vector<node*>);
+    void VNSpolicy();
     std::vector<station> getStationList();
     void setCycleTime(int);
 

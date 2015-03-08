@@ -23,7 +23,7 @@ class nodeGraph{
         void removeNodeFromQueue(node*);
         void printNodes();
         void printNodesTemp();
-
+        void initDone();
         void setFollowingTasks();
         void checkAvailable();
         void vectorPrinter(std::vector<node *>);

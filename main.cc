@@ -3,7 +3,8 @@
 #include "parser.h"
 #include "stationList.h"
 #include <valarray>
-#include <time.h>
+
+#include <dirent.h>
 
 using namespace::std;
 void VNSpolicy(stationList);
@@ -14,7 +15,51 @@ int main(int argc, char**argv)
     //creates an instance of a parser object.
     //construction overload to get the name of the file as an input.
     int datasetSize=0;
-    parser p1("data/BOWMAN8.IN2");
+    std::vector<string> benchmarks;
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir ("data")) != NULL) {
+      /* print all the files and directories within directory */
+      while ((ent = readdir (dir)) != NULL) {
+        benchmarks.push_back(ent->d_name);
+      }
+      closedir (dir);
+    } else {
+      /* could not open directory */
+      perror ("");
+      return EXIT_FAILURE;
+    }
+    int benchmarkChoice=-1;
+    do{
+    std::cout<<"Choose a benchmark:"<<std::endl;
+    for(int i=2; i<benchmarks.size();i++){
+                
+                    std::cout<<i-1<<")"<<benchmarks[i]<<std::endl;
+               
+                
+            }
+    
+    std::cout<<"Benchmark #: ";
+    std::cin>>benchmarkChoice;
+
+    }while((benchmarkChoice>25)||(benchmarkChoice<1));
+    const string policies[] = {"LTT","STT","MFT","LNFT","RPW","LRPW","VNS"};
+    int policyChoice =0;
+    do{
+    cout<<endl;
+    cout<<"====Choose Policy===="<<endl;
+    
+    for(int i=0; i<7;i++){
+                
+                    std::cout<<i+1<<")"<<policies[i]<<std::endl;
+               
+                
+            }
+    
+    cout<<"Policy #: ";
+    cin>>policyChoice;
+    }while((policyChoice>7)||(policyChoice<1));
+    parser p1("data/"+benchmarks[benchmarkChoice+2]);
     datasetSize = p1.getDatasetSize();
     //Creating the graph and populating it with the parsed data
     stationList s;
@@ -41,14 +86,20 @@ int main(int argc, char**argv)
     s.x.setFollowingTasks();
   //  VNSpolicy(s);
     cout<<"------------------------"<<endl;
-    s.setPolicy("LTT");
-    for(int i=0;i<datasetSize;i++)
-    {
-        node * decidedNode=s.decideNode(s.x.getQueue());
-        s.pushTaskToStation(decidedNode); 
+  
+    
+    if(policyChoice!=7){
+        s.setPolicy(policies[policyChoice-1]);
+        for(int i=0;i<datasetSize;i++)
+        {
+            node * decidedNode=s.decideNode(s.x.getQueue());
+            s.pushTaskToStation(decidedNode); 
+        }
+        s.printStations();
+        s.x.vectorNodeListPrinter(s.x.getNodeList());
     }
-    s.printStations();
-    s.x.vectorNodeListPrinter(s.x.getNodeList());
+    else
+        s.VNSpolicy();
     cout<<"------------------------"<<endl; 
     return 8;
 }
@@ -93,7 +144,6 @@ void VNSpolicy(stationList s)
          
     }
     
-    /*
     int kmax = datasetsize;
     for (int i=0; i<20;i++)
     {
@@ -151,5 +201,5 @@ void VNSpolicy(stationList s)
             }
             k++;
         }
-    }*/
+    }
 }

@@ -22,7 +22,7 @@ using std::endl;
                 
                 //cout<<this->getTotal(i+1); //when big inputdata creates problem
                std::cout<<nodeList[i].getRPW();
-               std::cout<<"::"<<nodeList[i].getNumFT();
+               std::cout<<"::"<<nodeList[i].getDone();
                 //cout<<"::"<<nodeList[i].getValue();
                 std::cout<<"::"<<nodeList[i].getName();   
                  for( int j= 0; j <nodeList[i].outNodes.size(); ++j){
@@ -49,6 +49,18 @@ using std::endl;
             
             }
         }
+        
+        void nodeGraph::initDone(){
+        
+           for(int i =0; i< nodeList.size();i++){
+                
+                nodeList[i].setDone(false);
+
+            }       
+        }
+        
+        
+        
         
         std::set<node*> nodeGraph::MFT(int nodeID){
            
