@@ -97,7 +97,7 @@ void parser::parseFile()
     // first token
     if (first_flag==0)
     {
-        cout<<"Number of input data: ";
+        cout<<endl<<"Number of input data: ";
         cout<<token[0];
         cout<<endl;
         

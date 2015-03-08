@@ -225,14 +225,9 @@ void stationList::pushTaskToStation(node *nd){
     }
  
     void stationList::VNSpolicy(){
-    
-       
-        stationList st1;
         
-        st1.x.insertNode(69,69);
-        
-        //st1->x.printNodes();
-      //  this->x.printNodes();
+        //st1.x.printNodes();
+        //this->x.printNodes();
         
       //  st1->x.vectorPrinter(st1->x.getQueue());
          
@@ -240,7 +235,8 @@ void stationList::pushTaskToStation(node *nd){
         
         std::vector <double> oldSolution;
         std::vector <double> newSolution;
-
+        std::vector <double> BestSolution;
+        int changed=0;
         srand(time(0));
         
         for(int i=0;i<datasetsize;i++)
@@ -250,14 +246,26 @@ void stationList::pushTaskToStation(node *nd){
                 
             }
     
-        for(int i=0;i<oldSolution.size();i++)
-            {
-
-                std::cout<<oldSolution[i]<<"->";
+//        for(int i=0;i<oldSolution.size();i++)
+//            {
+//
+//                std::cout<<oldSolution[i]<<"->";
+//                
+//            }
+//       
+//                std::cout<<std::endl;
+    BestSolution=oldSolution;
+             
+                 
+              
+          
                 
-            }
-       
-                std::cout<<std::endl;
+    int kmax = datasetsize;
+    for (int i=0; i<20;i++)
+    {   
+        
+        this->x.initDone();
+        this->initStations();
         
         for (int q=0; q<datasetsize;q++)
            {
@@ -268,8 +276,7 @@ void stationList::pushTaskToStation(node *nd){
                 
                 //FIND MAX
                 for(int i=0; i<tempQueue.size(); i++)
-                {
-                    //cout<<randomArray[THEnode->getName()-1] << randomArray[st1.x.getQueue()[i]->getName()-1];
+                { 
                     if(oldSolution[THEnode->getName()-1] < oldSolution[tempQueue[i]->getName()-1])         
                     {
                         
@@ -283,42 +290,10 @@ void stationList::pushTaskToStation(node *nd){
               
                // st1->x.vectorNodeListPrinter(st1->x.getNodeList());
          }
-                this->printStations(); 
-                
-                
-                this->x.initDone();
-                this->initStations();
-                
-          for (int q=0; q<datasetsize;q++)
-           {
-            
-                std::vector<node*>tempQueue = this->x.getQueue();
-                
-                node* THEnode= tempQueue.front();
-                
-                //FIND MAX
-                for(int i=0; i<tempQueue.size(); i++)
-                {
-                    //cout<<randomArray[THEnode->getName()-1] << randomArray[st1.x.getQueue()[i]->getName()-1];
-                    if(oldSolution[THEnode->getName()-1] < oldSolution[tempQueue[i]->getName()-1])         
-                    {
-                        
-                        THEnode=tempQueue[i];
-                        
-                    }
-                    
-                }   
-                  
-                this->pushTaskToStation(THEnode); 
-              
-               // st1->x.vectorNodeListPrinter(st1->x.getNodeList());
-         }
-                   
-                this->printStations(); 
-                
-                 int kmax = datasetsize;
-    for (int i=0; i<20;i++)
-    {   
+        
+                //this->printStations(); 
+        int oldStationLength=this->getStationList().size();
+        
         int k = 0;
         while(k<kmax)
         {
@@ -343,34 +318,113 @@ void stationList::pushTaskToStation(node *nd){
             
             }
             }
-            /*
-                    std::cout<<std::endl;
-                    std::cout<<std::endl;
-                    
-                    std::cout<<k<<": ";
-                         for(int i=0;i<newSolution.size();i++)
-            {
-
-                std::cout<<newSolution[i]<<"->";
+               
+            this->x.initDone();
+            this->initStations();
+            for (int q=0; q<datasetsize;q++)
+           {
+            
+                std::vector<node*>tempQueue = this->x.getQueue();
                 
-            }
-            */
-           
-               /*
-            if(st2->getStationList().size() < st1->getStationList().size())
+                node* THEnode= tempQueue.front();
+                
+                //FIND MAX
+                for(int i=0; i<tempQueue.size(); i++)
+                {
+                    //cout<<randomArray[THEnode->getName()-1] << randomArray[st1.x.getQueue()[i]->getName()-1];
+                    if(newSolution[THEnode->getName()-1] < newSolution[tempQueue[i]->getName()-1])         
+                    {
+                        
+                        THEnode=tempQueue[i];
+                        
+                    }
+                    
+                }   
+                  
+                this->pushTaskToStation(THEnode); 
+              
+               // st1->x.vectorNodeListPrinter(st1->x.getNodeList());
+         }
+           // std::cout<<this->getStationList().size() <<"-"<< oldStationLength<<endl;
+            if(this->getStationList().size() < oldStationLength)
             {
                 k=kmax;
-                st1=st2;
-                st2=this;
                 oldSolution=newSolution;
-            }*/
+                BestSolution=newSolution;
+                changed++;
+            }
             k++;
         }
-        
+    
+     
     }
-                 
+    
+    
+            this->x.initDone();
+            this->initStations();
+            for (int q=0; q<datasetsize;q++)
+           {
+            
+                std::vector<node*>tempQueue = this->x.getQueue();
+                
+                node* THEnode= tempQueue.front();
+                
+                //FIND MAX
+                for(int i=0; i<tempQueue.size(); i++)
+                {
+                    //cout<<randomArray[THEnode->getName()-1] << randomArray[st1.x.getQueue()[i]->getName()-1];
+                    if(BestSolution[THEnode->getName()-1] < BestSolution[tempQueue[i]->getName()-1])         
+                    {
+                        
+                        THEnode=tempQueue[i];
+                        
+                    }
+                    
+                }   
+                  
+                this->pushTaskToStation(THEnode); 
+              
+               // st1->x.vectorNodeListPrinter(st1->x.getNodeList());
+         }
+          /*this->printStations(); 
+        std::cout<<"length of stations -> "<<this->getStationList().size()<<" changed ->"<<changed<<" times"<<endl;
+        
+         for(int i=0;i<bestSolution.size();i++)
+            {
+
+                std::cout<<bestSolution[i]<<"->";
+                
+            }
+       
+                std::cout<<std::endl;   */
+            this->setBestSolution(BestSolution);
      
     }
     void stationList::initStations(){  
       stations.clear();   
     } 
+    
+    
+    
+    
+    void stationList::setBestSolution(std::vector <double> bs){
+        bestSolution=bs;
+    }
+    
+   
+    std::vector <double> stationList::printBestSolution(){
+        
+        std::cout.unsetf ( std::ios::floatfield ); 
+        for(int i=0; i<this->bestSolution.size();i++)
+        {
+            if(i==bestSolution.size()-1) {
+                std::cout.precision(2);
+                std::cout<<bestSolution[i];}
+            else{
+                std::cout.precision(2);
+                std::cout<<bestSolution[i]<<"->";
+            }
+        }
+        std::cout<<std::endl;
+        return bestSolution;
+    }

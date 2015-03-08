@@ -30,6 +30,7 @@ class stationList{
 private:
     std::vector<station> stations;
     string_policy policy;
+    std::vector <double> bestSolution;
     int cycleTime;
 
 public:
@@ -50,6 +51,8 @@ public:
     node* LRPWpolicy(std::vector<node*>);
     void VNSpolicy();
     std::vector<station> getStationList();
+    void setBestSolution(std::vector <double>);
+    std::vector <double> printBestSolution();
     void setCycleTime(int);
 
 
