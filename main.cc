@@ -114,6 +114,7 @@ int main(int argc, char**argv)
     
           cout<<"------------------------"<<endl;
 
+          
 
           if(policyChoice!=7){
               s.setPolicy(policies[policyChoice-1]);
