@@ -93,7 +93,7 @@ int main(int argc, char**argv)
     int Psum=0; 
     for(int i =0; i<s.x.getNodeList().size();i++)
     {
-        Psum=+s.x.getNodeList()[i].getValue();
+        Psum=Psum+s.x.getNodeList()[i].getValue();
         if(Pmax<s.x.getNodeList()[i].getValue())
         {
             Pmax=s.x.getNodeList()[i].getValue();
@@ -102,7 +102,6 @@ int main(int argc, char**argv)
     
     //s.x.printNodes();
     s.x.setFollowingTasks();
-    
     if(Algorithm==1){
         do{
                 cout<<"The cycle time should not be smaller than the maximum weight in the node graph("<<Pmax<<")"<<endl;       
@@ -146,25 +145,43 @@ int main(int argc, char**argv)
          int LB=std::max(Pmax,Psum/m);
          int UB=std::max(Pmax,2*Psum/m);
          cout<<"LB:"<<LB<<" UB:"<<UB<<" Pmax:"<<Pmax<<" Psum:"<<Psum<<endl;  
-         cin>>LB;
-        s.setCycleTime(cycleTime);
+         
+         cout<<"\nmaxstations:"<<s.getMaxStations()<<endl;  
+         s.setMaxStations(m);
+         s.setCycleTime(LB);
+         cycleTime=LB;
+         
+         cout<<"\nmaxstations:"<<s.getMaxStations()<<endl;  
     
           cout<<"------------------------"<<endl;
 
+         bool istrue=true;
 
           if(policyChoice!=7){
               s.setPolicy(policies[policyChoice-1]);
               for(int i=0;i<datasetSize;i++)
               {
                   node * decidedNode=s.decideNode(s.x.getQueue());
-                  s.pushTaskToStation(decidedNode); 
+                  istrue=s.pushTaskToStation(decidedNode);
+                  if(!istrue){
+                      
+                  cout<<"i:"<<i<<" istrue:"<<istrue<<" cycletime:"<<cycleTime<<""<<endl;
+                      i=0;
+                      LB=LB+1;
+                      cycleTime=LB;
+                      s.initStations();
+                      s.setAvailableStations(m);
+                      s.x.initDone();
+                      s.setCycleTime(LB);                  
+                  }
+                 
               }
-              cout<<"Problems and optimal solutions\nPreced.	  c\ngraph   (given)	 m*\n--------------------------"<<endl; 
+              cout<<"Problems and optimal solutions\nPreced.	  m\ngraph   (given)	 c*\n--------------------------"<<endl; 
               cout<<benchmarks[benchmarkChoice+1]<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<endl;
           }
           else{
               s.VNSpolicy();
-              cout<<"Problems and optimal solutions\nPreced.	  c\ngraph   (given)	 m*\n--------------------------"<<endl; 
+              cout<<"Problems and optimal solutions\nPreced.	  m\ngraph   (given)	 c*\n--------------------------"<<endl; 
               cout<<benchmarks[benchmarkChoice+1]<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<endl;
               cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
               s.printBestSolution();

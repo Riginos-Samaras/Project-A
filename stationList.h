@@ -32,16 +32,22 @@ private:
     string_policy policy;
     std::vector <double> bestSolution;
     int cycleTime;
+    int m;
+    int availableStations;
 
 public:
     nodeGraph x; 
     stationList();
+    stationList(int);
     ~stationList();
     void insertStation();
-    void pushTaskToStation(node*); 
+    bool pushTaskToStation(node*); 
     void printStations();
     void setPolicy(std::string);
     void initStations();
+    void setMaxStations(int);
+    void setAvailableStations(int);
+    int getMaxStations();
     node* decideNode(std::vector<node*>);
     node* LTTpolicy(std::vector<node*>);
     node* STTpolicy(std::vector<node*>);

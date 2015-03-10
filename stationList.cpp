@@ -2,7 +2,13 @@
 #include <time.h>
 using std::cout;
 using std::endl;
-stationList::stationList(){}
+stationList::stationList(){
+    m=10000000;
+    availableStations=10000000;
+}
+stationList::stationList(int max){
+    setMaxStations(max);
+}
 stationList::~stationList(){}
 
 void stationList::insertStation(){
@@ -12,16 +18,19 @@ void stationList::insertStation(){
     
 }
 
-void stationList::pushTaskToStation(node *nd){
-
-    if(stations.empty())
+bool stationList::pushTaskToStation(node *nd){
+   // cout<<"AS:"<<availableStations<<endl;
+    if(stations.empty()){
         insertStation();
+        availableStations--;
+    }
+    if(availableStations==-1)
+        {return false;}
     
     if(stations.back().canInsert(nd))
-    {
-       
+    {      
         stations.back().insertTask(nd);
-       x.removeNodeFromQueue(nd);
+        x.removeNodeFromQueue(nd);
     }
     else{
         
@@ -43,11 +52,15 @@ void stationList::pushTaskToStation(node *nd){
         
         if(openNewStation){
             insertStation();
+            availableStations--;
+            if(availableStations==-1)
+                {return false;}
             pushTaskToStation(nd);
+           
         }
-    
     }
 
+        return true;
 
 }
  void stationList::printStations(){
@@ -56,8 +69,18 @@ void stationList::pushTaskToStation(node *nd){
          stations[i].printTasks();
      }
  }
-    
+ 
+    void stationList::setMaxStations(int smax){
+        m=smax;
+        availableStations=smax;
+    }  
 
+    void stationList::setAvailableStations(int amax){
+        availableStations=amax;
+    }
+    int stationList::getMaxStations(){
+        return m;
+    }
     void stationList::setPolicy(std::string policyName){
         
         if (policyName == "LTT") policy=LTT;
