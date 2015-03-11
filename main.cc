@@ -121,6 +121,7 @@ int main(int argc, char**argv)
               {
                   node * decidedNode=s.decideNode(s.x.getQueue());
                   s.pushTaskToStation(decidedNode); 
+                  
               }
               cout<<"Problems and optimal solutions\nPreced.	  c\ngraph   (given)	 m*\n--------------------------"<<endl; 
               cout<<benchmarks[benchmarkChoice+1]<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<endl;
@@ -141,48 +142,87 @@ int main(int argc, char**argv)
 
         }while(m<=0);    
         
+         int solution=0;
+         bool LBsolution=false;
+         bool UBsolution=false;
+         
+       do{ 
+                cout<<"Choose a solution :\n1)LB\n2)UB"; 
+                cout<<"\nSolution #:";      
+                cin>>solution;
+
+        }while(solution!=1&&solution!=2);  
         
          int LB=std::max(Pmax,Psum/m);
          int UB=std::max(Pmax,2*Psum/m);
          cout<<"LB:"<<LB<<" UB:"<<UB<<" Pmax:"<<Pmax<<" Psum:"<<Psum<<endl;  
-         
-         cout<<"\nmaxstations:"<<s.getMaxStations()<<endl;  
          s.setMaxStations(m);
-         s.setCycleTime(LB);
-         cycleTime=LB;
+        
+         if(solution==1){
+            LBsolution=true;          
+            s.setCycleTime(LB);
+            cycleTime=LB;
+         }
+         if(solution==2){
+            UBsolution=true;
+            s.setCycleTime(UB);
+            cycleTime=UB;
+         }
+        
+        
          
-         cout<<"\nmaxstations:"<<s.getMaxStations()<<endl;  
     
-          cout<<"------------------------"<<endl;
-
-         bool istrue=true;
+         cout<<"------------------------"<<endl;
+         int rememberedOne=0;
+         bool enoughtStations=true;
 
           if(policyChoice!=7){
               s.setPolicy(policies[policyChoice-1]);
               for(int i=0;i<datasetSize;i++)
               {
                   node * decidedNode=s.decideNode(s.x.getQueue());
-                  istrue=s.pushTaskToStation(decidedNode);
-                  if(!istrue){
-                      
-                  cout<<"i:"<<i<<" istrue:"<<istrue<<" cycletime:"<<cycleTime<<""<<endl;
-                      i=0;
+                  enoughtStations=s.pushTaskToStation(decidedNode);
+                  
+                if(LBsolution) {
+                  if(!enoughtStations){
+                      i=-1;
                       LB=LB+1;
                       cycleTime=LB;
-                      s.initStations();
                       s.setAvailableStations(m);
+                      s.setCycleTime(LB); 
+                      s.initStations();
                       s.x.initDone();
-                      s.setCycleTime(LB);                  
-                  }
-                 
+                  } 
+                }
+                  
+                if(UBsolution){
+                   if(enoughtStations&&(i==(datasetSize-1))){  
+                      i=-1;
+                      UB=UB-1;
+                      cycleTime=UB;         
+                      s.setAvailableStations(m);
+                      s.setCycleTime(UB); 
+                      s.initStations();
+                      s.x.initDone();
+                      rememberedOne=UB;
+                  } 
+                   
+                    if(!enoughtStations&&i==datasetSize-1){                
+                        s.setCycleTime(rememberedOne);
+                        break;
+                  } 
+                 }                    
               }
-              cout<<"Problems and optimal solutions\nPreced.	  m\ngraph   (given)	 c*\n--------------------------"<<endl; 
-              cout<<benchmarks[benchmarkChoice+1]<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<endl;
+              cout<<"Problems and optimal solutions\nPreced.	  \tm\ngraph   \t(given)	 c*\n--------------------------"<<endl; 
+              if(LBsolution)
+                 cout<<benchmarks[benchmarkChoice+1]<<"\t"<<s.getStationList().size()<<"\t"<<s.getCycleTime()<<endl;
+              if(UBsolution)
+                 cout<<benchmarks[benchmarkChoice+1]<<"\t"<<s.getStationList().size()-1<<"\t"<<s.getCycleTime()+1<<endl;
           }
           else{
-              s.VNSpolicy();
+              s.VNSpolicy(solution);
               cout<<"Problems and optimal solutions\nPreced.	  m\ngraph   (given)	 c*\n--------------------------"<<endl; 
-              cout<<benchmarks[benchmarkChoice+1]<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<endl;
+              cout<<benchmarks[benchmarkChoice+1]<<"\t"<<s.getStationList().size()<<"\t"<<s.getCycleTime()<<endl;
               cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
               s.printBestSolution();
           }

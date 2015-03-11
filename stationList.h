@@ -34,7 +34,12 @@ private:
     int cycleTime;
     int m;
     int availableStations;
-
+    int LB;
+    int UB;
+    int Psum;
+    int Pmax;
+    bool LBsolution=false;
+    bool UBsolution=false;
 public:
     nodeGraph x; 
     stationList();
@@ -56,11 +61,13 @@ public:
     node* RPWpolicy(std::vector<node*>);
     node* LRPWpolicy(std::vector<node*>);
     void VNSpolicy();
+    void VNSpolicy(int);
     std::vector<station> getStationList();
     void setBestSolution(std::vector <double>);
     std::vector <double> printBestSolution();
     void setCycleTime(int);
-
+    int getCycleTime();
+    int findSolution(std::vector <double> );
 
 
 };

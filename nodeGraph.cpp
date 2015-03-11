@@ -21,8 +21,8 @@ using std::endl;
                 std::cout<<"\n";   
                 
                 //cout<<this->getTotal(i+1); //when big inputdata creates problem
-               std::cout<<nodeList[i].getRPW();
-               std::cout<<"::"<<nodeList[i].getDone();
+               std::cout<<nodeList[i].getDone();
+               std::cout<<"::"<<nodeList[i].getValue();
                 //cout<<"::"<<nodeList[i].getValue();
                 std::cout<<"::"<<nodeList[i].getName();   
                  for( int j= 0; j <nodeList[i].outNodes.size(); ++j){
