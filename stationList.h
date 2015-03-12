@@ -20,6 +20,8 @@
     MFT,
     LNFT,
     RPW,
+    FCFS,
+    Random,
     LRPW,
     VNS
 };
@@ -31,6 +33,7 @@ private:
     std::vector<station> stations;
     string_policy policy;
     std::vector <double> bestSolution;
+    std::vector <int> bestHeuristicSolution;
     int cycleTime;
     int m;
     int availableStations;
@@ -59,15 +62,21 @@ public:
     node* MFTpolicy(std::vector<node*>);
     node* LNFTpolicy(std::vector<node*>);
     node* RPWpolicy(std::vector<node*>);
+    node* FCFSpolicy(std::vector<node*>);
+    node* Randompolicy(std::vector<node*>);
     node* LRPWpolicy(std::vector<node*>);
     void VNSpolicy();
+    void Heuristicpolicy();
     void VNSpolicy(int);
     std::vector<station> getStationList();
     void setBestSolution(std::vector <double>);
+    void setBestHeuristicSolution(std::vector <int>);
     std::vector <double> printBestSolution();
+    std::vector <int> printBestHeuristicSolution();
     void setCycleTime(int);
     int getCycleTime();
     int findSolution(std::vector <double> );
+    int findHeuristicSolution(std::vector <int>);
 
 
 };

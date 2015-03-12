@@ -105,6 +105,8 @@ bool stationList::pushTaskToStation(node *nd){
         if (policyName == "RPW") policy= RPW;
         if (policyName == "LRPW") policy= RPW;
         if (policyName == "VNS") policy= VNS;
+        if (policyName == "FCFS") policy= FCFS;
+        if (policyName == "Random") policy= Random;
          
     }
     
@@ -132,10 +134,17 @@ bool stationList::pushTaskToStation(node *nd){
                  return RPWpolicy(nodeQueue);             
                 break; 
              
-                 case LRPW: 
+            case LRPW: 
                  return LRPWpolicy(nodeQueue);             
                 break; 
+            
+           case FCFS: 
+                 return FCFSpolicy(nodeQueue);             
+                break;
                 
+           case Random: 
+                 return Randompolicy(nodeQueue);             
+                break; 
                 
             case VNS:   
                         
@@ -232,6 +241,22 @@ bool stationList::pushTaskToStation(node *nd){
       
     }
     
+    node* stationList::FCFSpolicy(std::vector<node*>  nodeQueue){
+      
+         node* THEnode= nodeQueue.front();      
+         return THEnode;
+      
+    }
+    
+    node* stationList::Randompolicy(std::vector<node*>  nodeQueue){
+      
+         node* THEnode= nodeQueue.front();
+         int i=static_cast <int> (rand())%nodeQueue.size();     
+         THEnode=nodeQueue[i];     
+        // cout<<THEnode->getName()<<endl;
+         return THEnode;
+      
+    }
        node* stationList::LRPWpolicy(std::vector<node*> nodeQueue)
     {
       
@@ -366,7 +391,9 @@ bool stationList::pushTaskToStation(node *nd){
     void stationList::setBestSolution(std::vector <double> bs){
         bestSolution=bs;
     }
-    
+     void stationList::setBestHeuristicSolution(std::vector <int> bs){
+        bestHeuristicSolution=bs;
+    }
    
     std::vector <double> stationList::printBestSolution(){
         
@@ -385,6 +412,22 @@ bool stationList::pushTaskToStation(node *nd){
         return bestSolution;
     }
     
+    std::vector <int> stationList::printBestHeuristicSolution(){
+        
+        std::cout.unsetf ( std::ios::floatfield ); 
+        for(int i=0; i<this->bestHeuristicSolution.size();i++)
+        {
+            if(i==bestHeuristicSolution.size()-1) {
+                std::cout.precision(2);
+                std::cout<<bestHeuristicSolution[i];}
+            else{
+                std::cout.precision(2);
+                std::cout<<bestHeuristicSolution[i]<<"->";
+            }
+        }
+        std::cout<<std::endl;
+        return bestHeuristicSolution;
+    }
     
     
      void stationList::VNSpolicy(int solution){
@@ -470,7 +513,6 @@ bool stationList::pushTaskToStation(node *nd){
     
             this->x.initDone();
             this->initStations();
-            
             findSolution(BestSolution);
   
             this->setBestSolution(BestSolution);
@@ -509,5 +551,114 @@ bool stationList::pushTaskToStation(node *nd){
                   
                 enoughtStations=this->pushTaskToStation(THEnode); 
          }
-     
+          return 1;
      }
+     
+      int stationList::findHeuristicSolution(std::vector <int> BestSolution){
+          bool enoughtStations=true;
+          const std::string dePolicies[] = {"LTT","STT","MFT","LNFT","RPW","FCFS","Random"};
+          for (int q=0; q<this->x.getNodeList().size();q++)
+          {
+
+
+                 std::vector<node*>tempQueue = this->x.getQueue();
+
+                 node* THEnode= tempQueue.front();
+
+                 this->setPolicy(dePolicies[BestSolution[q%7]]);
+                 
+                 node * decidedNode=this->decideNode(tempQueue);
+
+                 THEnode=decidedNode;   
+
+                 //cout<<BestSolution[q%7]<<":POLICY:"<<dePolicies[BestSolution[q%7]]<< " node:"<<THEnode->getName()<<endl;
+                 
+                 enoughtStations=this->pushTaskToStation(THEnode); 
+          }
+          return 1;
+     }
+     
+     
+    void stationList::Heuristicpolicy(){ 
+         
+        int datasetsize = this->x.getNodeList().size();
+   
+        std::vector <int> oldSolution;
+        std::vector <int> newSolution;
+        std::vector <int> BestSolution;
+        int changed=0;
+        srand(time(0));
+        
+        for(int i=0;i<7;i++)
+            {
+            
+                oldSolution.push_back(static_cast <int> (rand()%7));
+                
+            }
+    
+        for(int i=0;i<oldSolution.size();i++)
+            {
+
+                std::cout<<oldSolution[i]<<"->";
+                
+            }
+            std::cout<<std::endl;
+    BestSolution=oldSolution;
+    
+    int kmax = datasetsize;
+    for (int i=0; i<20;i++)
+    {    
+        this->x.initDone();
+        this->initStations();
+        findHeuristicSolution(oldSolution);
+        int oldStationLength=this->getStationList().size();
+        
+        int k = 0;
+        while(k<kmax)
+        {
+            newSolution=oldSolution;
+            if(k%2 ==0){//shift
+            
+                for(int n=0;n<k;n++){
+                    double temp = newSolution.back();
+                    newSolution.pop_back();
+                    newSolution.insert(newSolution.begin(),temp);
+                }
+                
+            }
+            else{//exchange
+             for(int e=0;e<k;e++){
+                int pos1 = rand() % 7;
+                int pos2 = rand() % 7;
+                
+                double temp = newSolution[pos1];
+                newSolution[pos1] = newSolution[pos2];
+                newSolution[pos2] = temp;
+            
+            }
+            }
+               
+            this->x.initDone();
+            this->initStations();
+            findHeuristicSolution(newSolution);
+            
+            if(this->getStationList().size() < oldStationLength)
+            {
+                k=kmax;
+                oldSolution=newSolution;
+                BestSolution=newSolution;
+                changed++;
+            }
+            k++;
+        }
+    
+     
+    }
+    
+            this->x.initDone();
+            this->initStations();
+            findHeuristicSolution(BestSolution);
+             
+            this->setBestHeuristicSolution(BestSolution);
+     
+    }

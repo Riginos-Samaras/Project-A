@@ -9,19 +9,19 @@ CND_DISTDIR=dist
 # Debug configuration
 CND_PLATFORM_Debug=GNU-MacOSX
 CND_ARTIFACT_DIR_Debug=dist/Debug/GNU-MacOSX
-CND_ARTIFACT_NAME_Debug=project-a
-CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-MacOSX/project-a
+CND_ARTIFACT_NAME_Debug=albp
+CND_ARTIFACT_PATH_Debug=dist/Debug/GNU-MacOSX/albp
 CND_PACKAGE_DIR_Debug=dist/Debug/GNU-MacOSX/package
-CND_PACKAGE_NAME_Debug=project-a.tar
-CND_PACKAGE_PATH_Debug=dist/Debug/GNU-MacOSX/package/project-a.tar
+CND_PACKAGE_NAME_Debug=albp.tar
+CND_PACKAGE_PATH_Debug=dist/Debug/GNU-MacOSX/package/albp.tar
 # Release configuration
 CND_PLATFORM_Release=GNU-MacOSX
 CND_ARTIFACT_DIR_Release=dist/Release/GNU-MacOSX
-CND_ARTIFACT_NAME_Release=project-a
-CND_ARTIFACT_PATH_Release=dist/Release/GNU-MacOSX/project-a
+CND_ARTIFACT_NAME_Release=albp
+CND_ARTIFACT_PATH_Release=dist/Release/GNU-MacOSX/albp
 CND_PACKAGE_DIR_Release=dist/Release/GNU-MacOSX/package
-CND_PACKAGE_NAME_Release=project-a.tar
-CND_PACKAGE_PATH_Release=dist/Release/GNU-MacOSX/package/project-a.tar
+CND_PACKAGE_NAME_Release=albp.tar
+CND_PACKAGE_PATH_Release=dist/Release/GNU-MacOSX/package/albp.tar
 #
 # include compiler specific variables
 #

@@ -10,8 +10,7 @@
 #include <algorithm>    // std::max
 #include <dirent.h>
 
-using namespace::std;
-void VNSpolicy(stationList);
+using namespace::std; 
 int main(int argc, char**argv)
 {
     do{
@@ -41,9 +40,9 @@ int main(int argc, char**argv)
     int benchmarkChoice=-1;
     do{
     std::cout<<endl<<"Choose a benchmark:"<<std::endl;
-    for(int i=2; i<benchmarks.size();i++){
+    for(int i=3; i<benchmarks.size();i++){
                 
-                    std::cout<<i-1<<")"<<benchmarks[i]<<std::endl;
+                    std::cout<<i-2<<")"<<benchmarks[i]<<std::endl;
                
                 
             }
@@ -52,14 +51,14 @@ int main(int argc, char**argv)
     std::cin>>benchmarkChoice;
     
     }while((benchmarkChoice>25)||(benchmarkChoice<1));
-    cout<<endl<<"You have chose: "<<benchmarks[benchmarkChoice+1];
-    const string policies[] = {"LTT","STT","MFT","LNFT","RPW","LRPW","VNS"};
+    cout<<endl<<"You have chose: "<<benchmarks[benchmarkChoice+2];
+    const string policies[] = {"LTT","STT","MFT","LNFT","RPW","LRPW","FCFS","Random","VNS","Heuristic"};
     int policyChoice =0;
     do{
     cout<<endl;
     cout<<"====Choose Policy===="<<endl;
     
-    for(int i=0; i<7;i++){
+    for(int i=0; i<10;i++){
                 
                     std::cout<<i+1<<")"<<policies[i]<<std::endl;
                
@@ -68,9 +67,9 @@ int main(int argc, char**argv)
     
     cout<<"Policy #: ";
     cin>>policyChoice;
-    }while((policyChoice>7)||(policyChoice<1));
+    }while((policyChoice>10)||(policyChoice<1));
     
-    parser p1("data/"+benchmarks[benchmarkChoice+1]);
+    parser p1("data/"+benchmarks[benchmarkChoice+2]);
     datasetSize = p1.getDatasetSize();
     stationList s;
     int cycleTime = 3786;   
@@ -115,7 +114,7 @@ int main(int argc, char**argv)
 
           
 
-          if(policyChoice!=7){
+          if(policyChoice<9){
               s.setPolicy(policies[policyChoice-1]);
               for(int i=0;i<datasetSize;i++)
               {
@@ -126,12 +125,19 @@ int main(int argc, char**argv)
               cout<<"Problems and optimal solutions\nPreced.	  c\ngraph   (given)	 m*\n--------------------------"<<endl; 
               cout<<benchmarks[benchmarkChoice+1]<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<endl;
           }
-          else{
+          else if(policyChoice==9){
               s.VNSpolicy();
               cout<<"Problems and optimal solutions\nPreced.	  c\ngraph   (given)	 m*\n--------------------------"<<endl; 
-              cout<<benchmarks[benchmarkChoice+1]<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<endl;
+              cout<<benchmarks[benchmarkChoice+2]<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<endl;
               cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
               s.printBestSolution();
+          }
+          else if(policyChoice==10){
+             s.Heuristicpolicy();             
+             cout<<"Problems and optimal solutions\nPreced.	  c\ngraph   (given)	 m*\n--------------------------"<<endl; 
+             cout<<benchmarks[benchmarkChoice+2]<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<endl;
+             cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
+             s.printBestHeuristicSolution();
           }
     }
      if(Algorithm==2){
@@ -176,7 +182,7 @@ int main(int argc, char**argv)
          int rememberedOne=0;
          bool enoughtStations=true;
 
-          if(policyChoice!=7){
+          if(policyChoice!=9){
               s.setPolicy(policies[policyChoice-1]);
               for(int i=0;i<datasetSize;i++)
               {
