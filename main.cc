@@ -69,7 +69,7 @@ int main(int argc, char**argv)
     cin>>policyChoice;
     }while((policyChoice>10)||(policyChoice<1));
     
-    parser p1("data/"+benchmarks[benchmarkChoice+2]);
+    parser p1("benchmarks/"+benchmarks[benchmarkChoice+2],Algorithm);
     datasetSize = p1.getDatasetSize();
     stationList s;
     int cycleTime = 3786;   

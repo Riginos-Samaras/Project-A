@@ -13,32 +13,36 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
-      <logicalFolder name="data" displayName="data" projectFiles="true">
-        <itemPath>data/ARC111.IN2</itemPath>
-        <itemPath>data/ARC83.IN2</itemPath>
-        <itemPath>data/BARTHOL2.IN2</itemPath>
-        <itemPath>data/BARTHOLD.IN2</itemPath>
-        <itemPath>data/BOWMAN8.IN2</itemPath>
-        <itemPath>data/BUXEY.IN2</itemPath>
-        <itemPath>data/GUNTHER.IN2</itemPath>
-        <itemPath>data/HAHN.IN2</itemPath>
-        <itemPath>data/HESKIA.IN2</itemPath>
-        <itemPath>data/JACKSON.IN2</itemPath>
-        <itemPath>data/JAESCHKE.IN2</itemPath>
-        <itemPath>data/KILBRID.IN2</itemPath>
-        <itemPath>data/LUTZ1.IN2</itemPath>
-        <itemPath>data/LUTZ2.IN2</itemPath>
-        <itemPath>data/LUTZ3.IN2</itemPath>
-        <itemPath>data/MANSOOR.IN2</itemPath>
-        <itemPath>data/MERTENS.IN2</itemPath>
-        <itemPath>data/MITCHELL.IN2</itemPath>
-        <itemPath>data/MUKHERJE.IN2</itemPath>
-        <itemPath>data/ROSZIEG.IN2</itemPath>
-        <itemPath>data/SAWYER30.IN2</itemPath>
-        <itemPath>data/SCHOLL.IN2</itemPath>
-        <itemPath>data/TONGE70.IN2</itemPath>
-        <itemPath>data/WARNECKE.IN2</itemPath>
-        <itemPath>data/WEE-MAG.IN2</itemPath>
+      <logicalFolder name="benchmarks" displayName="benchmarks" projectFiles="true">
+        <itemPath>benchmarks/ARC111.IN2</itemPath>
+        <itemPath>benchmarks/ARC83.IN2</itemPath>
+        <itemPath>benchmarks/BARTHOL2.IN2</itemPath>
+        <itemPath>benchmarks/BARTHOLD.IN2</itemPath>
+        <itemPath>benchmarks/BOWMAN8.IN2</itemPath>
+        <itemPath>benchmarks/BUXEY.IN2</itemPath>
+        <itemPath>benchmarks/GUNTHER.IN2</itemPath>
+        <itemPath>benchmarks/HAHN.IN2</itemPath>
+        <itemPath>benchmarks/HESKIA.IN2</itemPath>
+        <itemPath>benchmarks/JACKSON.IN2</itemPath>
+        <itemPath>benchmarks/JAESCHKE.IN2</itemPath>
+        <itemPath>benchmarks/KILBRID.IN2</itemPath>
+        <itemPath>benchmarks/LUTZ1.IN2</itemPath>
+        <itemPath>benchmarks/LUTZ2.IN2</itemPath>
+        <itemPath>benchmarks/LUTZ3.IN2</itemPath>
+        <itemPath>benchmarks/MANSOOR.IN2</itemPath>
+        <itemPath>benchmarks/MERTENS.IN2</itemPath>
+        <itemPath>benchmarks/MITCHELL.IN2</itemPath>
+        <itemPath>benchmarks/MUKHERJE.IN2</itemPath>
+        <itemPath>benchmarks/ROSZIEG.IN2</itemPath>
+        <itemPath>benchmarks/SAWYER30.IN2</itemPath>
+        <itemPath>benchmarks/SCHOLL.IN2</itemPath>
+        <itemPath>benchmarks/TONGE70.IN2</itemPath>
+        <itemPath>benchmarks/WARNECKE.IN2</itemPath>
+        <itemPath>benchmarks/WEE-MAG.IN2</itemPath>
+      </logicalFolder>
+      <logicalFolder name="datasets" displayName="datasets" projectFiles="true">
+        <itemPath>datasets/dataset-1.txt</itemPath>
+        <itemPath>datasets/dataset-2.txt</itemPath>
       </logicalFolder>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
@@ -59,6 +63,8 @@
   </logicalFolder>
   <sourceRootList>
     <Elem>data</Elem>
+    <Elem>benchmarks</Elem>
+    <Elem>datasets</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -70,55 +76,59 @@
       </toolsSet>
       <compileType>
       </compileType>
-      <item path="data/ARC111.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/ARC111.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/ARC83.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/ARC83.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/BARTHOL2.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/BARTHOL2.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/BARTHOLD.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/BARTHOLD.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/BOWMAN8.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/BOWMAN8.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/BUXEY.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/BUXEY.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/GUNTHER.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/GUNTHER.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/HAHN.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/HAHN.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/HESKIA.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/HESKIA.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/JACKSON.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/JACKSON.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/JAESCHKE.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/JAESCHKE.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/KILBRID.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/KILBRID.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/LUTZ1.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/LUTZ1.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/LUTZ2.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/LUTZ2.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/LUTZ3.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/LUTZ3.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/MANSOOR.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/MANSOOR.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/MERTENS.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/MERTENS.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/MITCHELL.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/MITCHELL.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/MUKHERJE.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/MUKHERJE.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/ROSZIEG.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/ROSZIEG.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/SAWYER30.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/SAWYER30.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/SCHOLL.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/SCHOLL.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/TONGE70.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/TONGE70.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/WARNECKE.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/WARNECKE.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/WEE-MAG.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/WEE-MAG.IN2" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="datasets/dataset-1.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="datasets/dataset-2.txt" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cc" ex="false" tool="1" flavor2="0">
       </item>
@@ -163,55 +173,59 @@
           <developmentMode>5</developmentMode>
         </asmTool>
       </compileType>
-      <item path="data/ARC111.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/ARC111.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/ARC83.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/ARC83.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/BARTHOL2.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/BARTHOL2.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/BARTHOLD.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/BARTHOLD.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/BOWMAN8.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/BOWMAN8.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/BUXEY.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/BUXEY.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/GUNTHER.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/GUNTHER.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/HAHN.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/HAHN.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/HESKIA.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/HESKIA.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/JACKSON.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/JACKSON.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/JAESCHKE.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/JAESCHKE.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/KILBRID.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/KILBRID.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/LUTZ1.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/LUTZ1.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/LUTZ2.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/LUTZ2.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/LUTZ3.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/LUTZ3.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/MANSOOR.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/MANSOOR.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/MERTENS.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/MERTENS.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/MITCHELL.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/MITCHELL.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/MUKHERJE.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/MUKHERJE.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/ROSZIEG.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/ROSZIEG.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/SAWYER30.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/SAWYER30.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/SCHOLL.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/SCHOLL.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/TONGE70.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/TONGE70.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/WARNECKE.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/WARNECKE.IN2" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="data/WEE-MAG.IN2" ex="false" tool="3" flavor2="0">
+      <item path="benchmarks/WEE-MAG.IN2" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="datasets/dataset-1.txt" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="datasets/dataset-2.txt" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cc" ex="false" tool="1" flavor2="0">
       </item>

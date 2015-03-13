@@ -12,6 +12,8 @@
             <make-dep-projects/>
             <sourceRootList>
                 <sourceRootElem>data</sourceRootElem>
+                <sourceRootElem>benchmarks</sourceRootElem>
+                <sourceRootElem>datasets</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

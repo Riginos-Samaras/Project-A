@@ -28,24 +28,45 @@ extern "C" {
          int right;
     } ;
 
+    struct dataset1Node {
+        std::string name;
+         std::vector<int> cycletimes;
+         std::vector<int> optimum;
+    } ;
+    
+    struct find_name : std::unary_function<dataset1Node, bool> {
+    std::string name;
+    find_name(std::string name):name(name) { }
+    bool operator()(dataset1Node const& m) const {
+        return m.name == name;
+    }
+};
+
+
+    
     class parser{
     
     private:
         
         std::vector<weightNode> weights;
         std::vector<dependencyNode> dependencies;
+        std::vector<dataset1Node> dataset1Vec;
         std::string filename;
+        std::string datasetName;
         int datasetsize;
         
     public:
         
         parser();
-        parser(std::string);
+        parser(std::string, int);
         
         std::vector<weightNode> getWeightsVector();
         std::vector<dependencyNode> getDependenciesVector();
         
         void parseFile();
+        
+        void parseDataSetALBP1();
+        void parseDataSetALBP2();
         
         int getDatasetSize();
         void setDatasetSize(int);
