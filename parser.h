@@ -34,6 +34,12 @@ extern "C" {
          std::vector<int> optimum;
     } ;
     
+    struct dataset2Node {
+        std::string name;
+         std::vector<int> stations;
+         std::vector<int> optimum;
+    } ;
+    
     struct find_name : std::unary_function<dataset1Node, bool> {
     std::string name;
     find_name(std::string name):name(name) { }
@@ -51,6 +57,7 @@ extern "C" {
         std::vector<weightNode> weights;
         std::vector<dependencyNode> dependencies;
         std::vector<dataset1Node> dataset1Vec;
+        std::vector<dataset2Node> dataset2Vec;
         std::string filename;
         std::string datasetName;
         int datasetsize;
@@ -78,6 +85,9 @@ extern "C" {
         void printWeightsVector();
         void printDependenciesVector();
         
+        std::vector<dataset1Node> getDataset1();
+        
+        void printDataset1();
     
     };
 

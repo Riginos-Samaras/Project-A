@@ -102,17 +102,7 @@ void parser::parseDataSetALBP1(){
     
    // cout << endl;
   }
-//print vector
-//    
-//    for(int i=0;i<dataset1Vec.size();i++)
-//    {
-//        cout<<dataset1Vec[i].name<<":"<<endl;
-//        for(int j=0;j<dataset1Vec[i].optimum.size();j++)
-//        {
-//            cout<<"\t c = "<<dataset1Vec[i].cycletimes[j]<<"\t"<<"m* = "<<dataset1Vec[i].optimum[j]<<endl;
-//        }
-//    
-//    }
+
 }
 
 std::vector<weightNode> parser::getWeightsVector()
@@ -261,4 +251,27 @@ void parser::parseFile()
        
         parser::insertDependencyToVector(atoi(token2[0]),atoi(token2[1]));
     }
+}
+
+std::vector<dataset1Node> parser::getDataset1()
+
+{
+    return dataset1Vec;
+
+}
+
+void parser::printDataset1(){
+
+   // print vector
+    
+    for(int i=0;i<dataset1Vec.size();i++)
+    {
+        cout<<dataset1Vec[i].name<<":"<<endl;
+        for(int j=0;j<dataset1Vec[i].optimum.size();j++)
+        {
+            cout<<"\t c = "<<dataset1Vec[i].cycletimes[j]<<"\t"<<"m* = "<<dataset1Vec[i].optimum[j]<<endl;
+        }
+    
+    }
+
 }

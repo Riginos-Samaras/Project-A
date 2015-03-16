@@ -13,6 +13,7 @@
 using namespace::std; 
 int main(int argc, char**argv)
 {
+    
     do{
     // Prints welcome message...
     std::cout << "Welcome to ALBP1 and ALBP2 algorithms" << std::endl;
@@ -68,8 +69,9 @@ int main(int argc, char**argv)
     cout<<"Policy #: ";
     cin>>policyChoice;
     }while((policyChoice>10)||(policyChoice<1));
-    
+    std::vector<dataset1Node> dataset1;
     parser p1("benchmarks/"+benchmarks[benchmarkChoice+2],Algorithm);
+    dataset1=p1.getDataset1();
     datasetSize = p1.getDatasetSize();
     stationList s;
     int cycleTime = 3786;   
