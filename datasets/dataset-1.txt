@@ -2,22 +2,6 @@ Problems and optimal solutions
 Preced.	  c 
 graph   (given)	 m*
 --------------------------
-Arcus1	3786	21
-Arcus1	3985	20
-Arcus1	4206	19
-Arcus1	4454	18
-Arcus1	4732	17
-Arcus1	5048	16
-Arcus1	5408	15
-Arcus1	5824	14
-Arcus1	5853	14
-Arcus1	6309	13
-Arcus1	6842	12
-Arcus1	6883	12
-Arcus1	7571	11
-Arcus1	8412	10
-Arcus1	8898	9
-Arcus1	10816	8
 Arcus2	5755	27
 Arcus2	5785	27
 Arcus2	6016	26
@@ -35,6 +19,22 @@ Arcus2	10743	15
 Arcus2	11378	14
 Arcus2	11570	13
 Arcus2	17067	9
+Arcus1	3786	21
+Arcus1	3985	20
+Arcus1	4206	19
+Arcus1	4454	18
+Arcus1	4732	17
+Arcus1	5048	16
+Arcus1	5408	15
+Arcus1	5824	14
+Arcus1	5853	14
+Arcus1	6309	13
+Arcus1	6842	12
+Arcus1	6883	12
+Arcus1	7571	11
+Arcus1	8412	10
+Arcus1	8898	9
+Arcus1	10816	8
 Barthol2	84	51
 Barthol2	85	50
 Barthol2	87	49

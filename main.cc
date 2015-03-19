@@ -26,7 +26,7 @@ int main(int argc, char**argv)
     std::vector<string> benchmarks;
     DIR *dir;
     struct dirent *ent;
-    if ((dir = opendir ("data")) != NULL) {
+    if ((dir = opendir ("benchmarks")) != NULL) {
       /* print all the files and directories within directory */
       while ((ent = readdir (dir)) != NULL) {
         benchmarks.push_back(ent->d_name);
@@ -72,14 +72,16 @@ int main(int argc, char**argv)
     std::vector<dataset1Node> dataset1;
     parser p1("benchmarks/"+benchmarks[benchmarkChoice+2],Algorithm);
     dataset1=p1.getDataset1();
+    
     datasetSize = p1.getDatasetSize();
     stationList s;
-    int cycleTime = 3786;   
+    int cycleTime = 3786;
+    int optimumStations=0;
+    int optumumCycleTime=0;
     int m=0;
     
     //Creating the graph and populating it with the parsed data
 
-    s.setCycleTime(cycleTime);
     for(int i=0; i<p1.getWeightsVector().size();i++)
     {
         s.x.insertNode(p1.getWeightsVector()[i].name,p1.getWeightsVector()[i].value); 
@@ -105,9 +107,11 @@ int main(int argc, char**argv)
     s.x.setFollowingTasks();
     if(Algorithm==1){
         do{
-                cout<<"The cycle time should not be smaller than the maximum weight in the node graph("<<Pmax<<")"<<endl;       
-                cout<<"Cycle time #: ";
-                cin>>cycleTime;
+                cout<<dataset1[benchmarkChoice-1].cycletimes[0]<<"The cycle time should not be smaller than the maximum weight in the node graph("<<Pmax<<")"<<endl;  
+                cycleTime = dataset1[benchmarkChoice-1].cycletimes[0];
+                optimumStations = dataset1[benchmarkChoice-1].optimum[0];
+                cout<<"Cycle time #: "<<cycleTime<<endl;
+                //cin>>cycleTime;
 
         }while(Pmax>cycleTime);       
         s.setCycleTime(cycleTime);
@@ -124,27 +128,33 @@ int main(int argc, char**argv)
                   s.pushTaskToStation(decidedNode); 
                   
               }
-              cout<<"Problems and optimal solutions\nPreced.	  c\ngraph   (given)	 m*\n--------------------------"<<endl; 
-              cout<<benchmarks[benchmarkChoice+1]<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<endl;
+              cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tc\tm\tm*\n--------------------------"<<endl; 
+              cout<<benchmarks[benchmarkChoice+2]<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<"\t"<<optimumStations<<endl;
           }
           else if(policyChoice==9){
               s.VNSpolicy();
-              cout<<"Problems and optimal solutions\nPreced.	  c\ngraph   (given)	 m*\n--------------------------"<<endl; 
-              cout<<benchmarks[benchmarkChoice+2]<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<endl;
+              cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tc\tm\tm*\n--------------------------"<<endl; 
+              cout<<benchmarks[benchmarkChoice+2]<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<"\t"<<optimumStations<<endl;
               cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
               s.printBestSolution();
           }
           else if(policyChoice==10){
              s.Heuristicpolicy();             
-             cout<<"Problems and optimal solutions\nPreced.	  c\ngraph   (given)	 m*\n--------------------------"<<endl; 
-             cout<<benchmarks[benchmarkChoice+2]<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<endl;
+              cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tc\tm\tm*\n--------------------------"<<endl; 
+              cout<<benchmarks[benchmarkChoice+2]<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<"\t"<<optimumStations<<endl;
              cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
              s.printBestHeuristicSolution();
           }
+
     }
+
      if(Algorithm==2){
+         
          //LB =max(p ,p m)
         do{ 
+            
+                //optimumcycleTime = dataset2[benchmarkChoice-1].cycletimes[0];
+                //m = dataset2[benchmarkChoice-1].optimum[0];
                 cout<<"Stations #:";      
                 cin>>m;
 
@@ -221,18 +231,25 @@ int main(int argc, char**argv)
                   } 
                  }                    
               }
-              cout<<"Problems and optimal solutions\nPreced.	  \tm\ngraph   \t(given)	 c*\n--------------------------"<<endl; 
+              cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tm\tc\tc*\n--------------------------"<<endl; 
               if(LBsolution)
-                 cout<<benchmarks[benchmarkChoice+1]<<"\t"<<s.getStationList().size()<<"\t"<<s.getCycleTime()<<endl;
+                 cout<<benchmarks[benchmarkChoice+1]<<"\t"<<s.getStationList().size()<<"\t"<<s.getCycleTime()<<"\t"<<optumumCycleTime<<endl;
               if(UBsolution)
-                 cout<<benchmarks[benchmarkChoice+1]<<"\t"<<s.getStationList().size()-1<<"\t"<<s.getCycleTime()+1<<endl;
+                 cout<<benchmarks[benchmarkChoice+1]<<"\t"<<s.getStationList().size()-1<<"\t"<<s.getCycleTime()+1<<"\t"<<optumumCycleTime<<endl;
           }
-          else{
+          else if(policyChoice==9){
               s.VNSpolicy(solution);
-              cout<<"Problems and optimal solutions\nPreced.	  m\ngraph   (given)	 c*\n--------------------------"<<endl; 
-              cout<<benchmarks[benchmarkChoice+1]<<"\t"<<s.getStationList().size()<<"\t"<<s.getCycleTime()<<endl;
+              cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tm\tc\tc*\n--------------------------"<<endl; 
+              cout<<benchmarks[benchmarkChoice+1]<<"\t"<<s.getStationList().size()<<"\t"<<s.getCycleTime()<<"\t"<<optumumCycleTime<<endl;
               cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
               s.printBestSolution();
+          }
+          else if(policyChoice==10){
+             s.Heuristicpolicy();             
+             cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tm\tc\tc*\n--------------------------"<<endl; 
+               cout<<benchmarks[benchmarkChoice+1]<<"\t"<<s.getStationList().size()<<"\t"<<s.getCycleTime()<<"\t"<<optumumCycleTime<<endl;
+              cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
+             s.printBestHeuristicSolution();
           }
     }
     string shallContinue;

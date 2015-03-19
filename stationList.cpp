@@ -554,18 +554,58 @@ bool stationList::pushTaskToStation(node *nd){
           return 1;
      }
      
+     
+     int stationList::findSolutionALBP2(std::vector <double> BestSolution){
+          bool enoughtStations=true;
+       for (int q=0; q<this->x.getNodeList().size();q++)
+           {
+            
+                std::vector<node*>tempQueue = this->x.getQueue();
+                
+                node* THEnode= tempQueue.front();
+                
+                  
+                 
+                  
+                //FIND MAX
+                for(int i=0; i<tempQueue.size(); i++)
+                {
+                    //cout<<randomArray[THEnode->getName()-1] << randomArray[st1.x.getQueue()[i]->getName()-1];
+                    if(BestSolution[THEnode->getName()-1] < BestSolution[tempQueue[i]->getName()-1])         
+                    {
+                        
+                        THEnode=tempQueue[i];
+                        
+                    }
+                    
+                }   
+                  
+                enoughtStations=this->pushTaskToStation(THEnode); 
+                 if(!enoughtStations){
+                      q=-1;
+                      LB=LB+1;
+                      cycleTime=LB;
+                      setAvailableStations(m);
+                      setCycleTime(LB); 
+                      initStations();
+                      x.initDone();
+                  } 
+         }
+          return 1;
+     }
+     
       int stationList::findHeuristicSolution(std::vector <int> BestSolution){
           bool enoughtStations=true;
+          int stationWeAre=0;
           const std::string dePolicies[] = {"LTT","STT","MFT","LNFT","RPW","FCFS","Random"};
           for (int q=0; q<this->x.getNodeList().size();q++)
           {
-
-
+                 
+                 
                  std::vector<node*>tempQueue = this->x.getQueue();
-
+                 
                  node* THEnode= tempQueue.front();
-
-                 this->setPolicy(dePolicies[BestSolution[q%7]]);
+                 this->setPolicy(dePolicies[BestSolution[this->stations.size()]]);
                  
                  node * decidedNode=this->decideNode(tempQueue);
 
@@ -589,7 +629,7 @@ bool stationList::pushTaskToStation(node *nd){
         int changed=0;
         srand(time(0));
         
-        for(int i=0;i<7;i++)
+        for(int i=0;i<datasetsize;i++)
             {
             
                 oldSolution.push_back(static_cast <int> (rand()%7));

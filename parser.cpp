@@ -20,7 +20,7 @@ parser::parser(std::string fn, int type)
     if(type==1)
         datasetName = "datasets/dataset-1.txt";
     else
-        datasetName = "datasets/dataset-2.txt"; 
+        datasetName = "datasets/dataset-1.txt"; 
     parser::parseFile();
     parser::parseDataSetALBP1();
 }
