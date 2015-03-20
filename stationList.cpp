@@ -599,13 +599,13 @@ bool stationList::pushTaskToStation(node *nd){
                 
             }
     
-        for(int i=0;i<oldSolution.size();i++)
-            {
-
-                std::cout<<oldSolution[i]<<"->";
-                
-            }
-            std::cout<<std::endl;
+//        for(int i=0;i<oldSolution.size();i++)
+//            {
+//
+//                std::cout<<oldSolution[i]<<"->";
+//                
+//            }
+//            std::cout<<std::endl;
     BestSolution=oldSolution;
     
     int kmax = datasetsize;

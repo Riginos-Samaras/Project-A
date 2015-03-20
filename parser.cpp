@@ -114,8 +114,8 @@ void parser::parseDataSetALBP1(){
 
 void parser::parseDataSetALBP2(){
     
-    std::string datasetsNames[] = {"Buxey", "Gunther", "Kilbridge", "Lutz1", "Lutz2", "Sawyer", "Tonge", "Archus1", "Archus2", "Hahn", "Warnecke", "Wee-Mag", "Lutz3", "Mukherje", "Barthold","Barthold2", "Scholl"};
-    std::string realDatasetsNames[] = {"BUXEY.IN2", "GUNTHER.IN2", "KILBRID.IN2", "LUTZ1.IN2", "LUTZ2.IN2", "SAWYER30.IN2", "TONGE70.IN2", "ARC83.IN2", "ARC111.IN2", "HAHN.IN2", "WARNECKE.IN2", "WEE-MAG.IN2", "LUTZ3.IN2", "MUKHERJE.IN2", "BARTHOLD.IN2","BARTHOLD2.IN2", "SCHOLL.IN2"};
+    std::string datasetsNames[] = {"Buxey", "Gunther", "Kilbridge", "Lutz1", "Lutz2", "Sawyer", "Tonge", "Arcus1", "Arcus2", "Hahn", "Warnecke", "Wee-Mag", "Lutz3", "Mukherje", "Barthold","Barthol2", "Scholl"};
+    std::string realDatasetsNames[] = {"BUXEY.IN2", "GUNTHER.IN2", "KILBRID.IN2", "LUTZ1.IN2", "LUTZ2.IN2", "SAWYER30.IN2", "TONGE70.IN2", "ARC83.IN2", "ARC111.IN2", "HAHN.IN2", "WARNECKE.IN2", "WEE-MAG.IN2", "LUTZ3.IN2", "MUKHERJE.IN2", "BARTHOLD.IN2","BARTHOL2.IN2", "SCHOLL.IN2"};
         // create a file-reading object
     ifstream fin;
     fin.open(datasetName);
