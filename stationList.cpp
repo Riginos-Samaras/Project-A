@@ -554,45 +554,7 @@ bool stationList::pushTaskToStation(node *nd){
           return 1;
      }
      
-     
-     int stationList::findSolutionALBP2(std::vector <double> BestSolution){
-          bool enoughtStations=true;
-       for (int q=0; q<this->x.getNodeList().size();q++)
-           {
-            
-                std::vector<node*>tempQueue = this->x.getQueue();
-                
-                node* THEnode= tempQueue.front();
-                
-                  
-                 
-                  
-                //FIND MAX
-                for(int i=0; i<tempQueue.size(); i++)
-                {
-                    //cout<<randomArray[THEnode->getName()-1] << randomArray[st1.x.getQueue()[i]->getName()-1];
-                    if(BestSolution[THEnode->getName()-1] < BestSolution[tempQueue[i]->getName()-1])         
-                    {
-                        
-                        THEnode=tempQueue[i];
-                        
-                    }
-                    
-                }   
-                  
-                enoughtStations=this->pushTaskToStation(THEnode); 
-                 if(!enoughtStations){
-                      q=-1;
-                      LB=LB+1;
-                      cycleTime=LB;
-                      setAvailableStations(m);
-                      setCycleTime(LB); 
-                      initStations();
-                      x.initDone();
-                  } 
-         }
-          return 1;
-     }
+   
      
       int stationList::findHeuristicSolution(std::vector <int> BestSolution){
           bool enoughtStations=true;
@@ -605,6 +567,7 @@ bool stationList::pushTaskToStation(node *nd){
                  std::vector<node*>tempQueue = this->x.getQueue();
                  
                  node* THEnode= tempQueue.front();
+                // cout<<dePolicies[BestSolution[this->stations.size()]]<<"dasdasdasdsa"<<endl;
                  this->setPolicy(dePolicies[BestSolution[this->stations.size()]]);
                  
                  node * decidedNode=this->decideNode(tempQueue);

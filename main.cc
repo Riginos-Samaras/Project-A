@@ -70,12 +70,16 @@ int main(int argc, char**argv)
     cin>>policyChoice;
     }while((policyChoice>10)||(policyChoice<1));
     std::vector<dataset1Node> dataset1;
+    std::vector<dataset2Node> dataset2;
     parser p1("benchmarks/"+benchmarks[benchmarkChoice+2],Algorithm);
-    dataset1=p1.getDataset1();
+    if(Algorithm==1)
+        dataset1=p1.getDataset1();
+    else
+        dataset2=p1.getDataset2();
     
     datasetSize = p1.getDatasetSize();
     stationList s;
-    int cycleTime = 3786;
+    int cycleTime = 0;
     int optimumStations=0;
     int optumumCycleTime=0;
     int m=0;
@@ -107,13 +111,24 @@ int main(int argc, char**argv)
     s.x.setFollowingTasks();
     if(Algorithm==1){
         do{
-                cout<<dataset1[benchmarkChoice-1].cycletimes[0]<<"The cycle time should not be smaller than the maximum weight in the node graph("<<Pmax<<")"<<endl;  
-                cycleTime = dataset1[benchmarkChoice-1].cycletimes[0];
+                cout<<dataset1[benchmarkChoice-1].cycletimes[0]<<"The cycle time should not be smaller than the maximum weight in the node graph("<<Pmax<<")"<<endl; 
+                
+                for(int k=0; k<dataset1.size();k++){
+                    if(benchmarks[benchmarkChoice+2]==dataset1[k].name){
+                        
+                        cout<<";"<<dataset1[benchmarkChoice+2].name<<endl;
+                        cout<<";"<<dataset1[k].name<<endl;
+                        cycleTime = dataset1[k].cycletimes[0];
+                        
+                    }
+                }
+                
                 optimumStations = dataset1[benchmarkChoice-1].optimum[0];
                 cout<<"Cycle time #: "<<cycleTime<<endl;
+               
                 //cin>>cycleTime;
 
-        }while(Pmax>cycleTime);       
+        }while(Pmax>cycleTime);          
         s.setCycleTime(cycleTime);
     
           cout<<"------------------------"<<endl;
@@ -149,33 +164,56 @@ int main(int argc, char**argv)
     }
 
      if(Algorithm==2){
-         
+        
          //LB =max(p ,p m)
-        do{ 
+        
             
                 //optimumcycleTime = dataset2[benchmarkChoice-1].cycletimes[0];
                 //m = dataset2[benchmarkChoice-1].optimum[0];
-                cout<<"Stations #:";      
-                cin>>m;
+            bool found=false;
+            for(int k=0; k<dataset2.size();k++){
+                    if(benchmarks[benchmarkChoice+2]==dataset2[k].name){
+                        found=true;
+                        cout<<";"<<benchmarks[benchmarkChoice+2]<<endl;
+                        cout<<";"<<dataset2[k].name<<endl;
+                        m = dataset2[k].stations[0];
+                        
+                    }
+                }
+            if (!found){
+                cout<<"There no values for the selected benchmark in the dataset"<<endl;
+                cout<<endl;
+                string shallContinue;
+                cout<<"Shall we continue?(Y/N)"<<endl;
+                cin>>shallContinue; 
+                if(shallContinue=="N"){break;}else{continue;}
+            
+            }
+                
+                cout<<"Stations #: "<<m;      
+                
 
-        }while(m<=0);    
+           
         
          int solution=0;
          bool LBsolution=false;
-         bool UBsolution=false;
-         
-       do{ 
-                cout<<"Choose a solution :\n1)LB\n2)UB"; 
-                cout<<"\nSolution #:";      
-                cin>>solution;
+         bool UBsolution=false;   
+         bool MIDCsolution=false;
+       if(policyChoice>0&&policyChoice<9) 
+            do{ 
+                     cout<<"Choose a solution :\n1)LB\n2)UB\n3)MIDC"; 
+                     cout<<"\nSolution #:";      
+                     cin>>solution;
 
-        }while(solution!=1&&solution!=2);  
-        
+             }while(solution!=1&&solution!=2&&solution!=3);  
+
          int LB=std::max(Pmax,Psum/m);
          int UB=std::max(Pmax,2*Psum/m);
-         cout<<"LB:"<<LB<<" UB:"<<UB<<" Pmax:"<<Pmax<<" Psum:"<<Psum<<endl;  
+         int midc=(LB+UB)/2;
+         cout<<"LB:"<<LB<<" UB:"<<UB<<" midc:"<<midc<<" Pmax:"<<Pmax<<" Psum:"<<Psum<<endl;  
          s.setMaxStations(m);
         
+         
          if(solution==1){
             LBsolution=true;          
             s.setCycleTime(LB);
@@ -186,69 +224,114 @@ int main(int argc, char**argv)
             s.setCycleTime(UB);
             cycleTime=UB;
          }
-        
-        
+         if(solution==3){
+            MIDCsolution=true;
+            s.setCycleTime(midc);
+            cycleTime=midc;
+         }
+         int minc=LB;
+         int maxc=UB;
          
     
          cout<<"------------------------"<<endl;
          int rememberedOne=0;
          bool enoughtStations=true;
 
-          if(policyChoice!=9){
+          if(policyChoice<9){
               s.setPolicy(policies[policyChoice-1]);
-              for(int i=0;i<datasetSize;i++)
-              {
-                  node * decidedNode=s.decideNode(s.x.getQueue());
-                  enoughtStations=s.pushTaskToStation(decidedNode);
-                  
-                if(LBsolution) {
-                  if(!enoughtStations){
-                      i=-1;
-                      LB=LB+1;
-                      cycleTime=LB;
-                      s.setAvailableStations(m);
-                      s.setCycleTime(LB); 
-                      s.initStations();
-                      s.x.initDone();
-                  } 
-                }
-                  
-                if(UBsolution){
-                   if(enoughtStations&&(i==(datasetSize-1))){  
-                      i=-1;
-                      UB=UB-1;
-                      cycleTime=UB;         
-                      s.setAvailableStations(m);
-                      s.setCycleTime(UB); 
-                      s.initStations();
-                      s.x.initDone();
-                      rememberedOne=UB;
-                  } 
-                   
-                    if(!enoughtStations&&i==datasetSize-1){                
-                        s.setCycleTime(rememberedOne);
-                        break;
-                  } 
-                 }                    
+              if(LBsolution||UBsolution){
+                    for(int i=0;i<datasetSize;i++)
+                    {
+                        node * decidedNode=s.decideNode(s.x.getQueue());
+                        enoughtStations=s.pushTaskToStation(decidedNode);
+
+                      if(LBsolution) {
+                        if(!enoughtStations){
+                            i=-1;
+                            LB=LB+1;
+                            cycleTime=LB;
+                            s.setAvailableStations(m);
+                            s.setCycleTime(LB); 
+                            s.initStations();
+                            s.x.initDone();
+                        } 
+                      }
+
+                      if(UBsolution){
+                         if(enoughtStations&&(i==(datasetSize-1))){  
+                            i=-1;
+                            UB=UB-1;
+                            cycleTime=UB;         
+                            s.setAvailableStations(m);
+                            s.setCycleTime(UB); 
+                            s.initStations();
+                            s.x.initDone();
+                            rememberedOne=UB;
+                        } 
+
+                      }
+                          if(!enoughtStations&&i==datasetSize-1){                
+                              s.setCycleTime(rememberedOne);
+                              break;
+                        } 
+                       }  
+              }
+              else if(MIDCsolution){   
+                  while (maxc >= minc) {
+                     midc = (maxc+minc)/2;
+                     s.setCycleTime(midc);
+                    //NODE INITIALIZATION
+                     s.initStations();
+                     s.x.initDone();
+                     //RUN THE GRAPH
+                     for(int i=0;i<datasetSize;i++)
+                     {
+                         node * decidedNode=s.decideNode(s.x.getQueue());
+                         s.pushTaskToStation(decidedNode);
+                     }
+                     
+                    cout<<"min:"<<minc<<" mid:"<<midc<<" max:"<<maxc<<" :size"<<s.getStationList().size()<<" m:"<<m<<endl;  
+                     //case we got a small station number then we have to decrease cycle time in order for our algorithm to get a bigger number of startions
+                     if(s.getStationList().size() > m){
+                      minc = midc +1;
+                     }else if(s.getStationList().size() < m){
+                      maxc = midc -1;
+                    }
+                     else if(s.getStationList().size() == m){
+                         maxc--;
+                     }
+                            
+                  }
               }
               cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tm\tc\tc*\n--------------------------"<<endl; 
-              if(LBsolution)
-                 cout<<benchmarks[benchmarkChoice+1]<<"\t"<<s.getStationList().size()<<"\t"<<s.getCycleTime()<<"\t"<<optumumCycleTime<<endl;
+              if(LBsolution||MIDCsolution)
+                 cout<<benchmarks[benchmarkChoice+2]<<"\t"<<s.getStationList().size()<<"\t"<<s.getCycleTime()<<"\t"<<optumumCycleTime<<endl;
               if(UBsolution)
-                 cout<<benchmarks[benchmarkChoice+1]<<"\t"<<s.getStationList().size()-1<<"\t"<<s.getCycleTime()+1<<"\t"<<optumumCycleTime<<endl;
+                 cout<<benchmarks[benchmarkChoice+2]<<"\t"<<s.getStationList().size()-1<<"\t"<<s.getCycleTime()+1<<"\t"<<optumumCycleTime<<endl;
+         
           }
           else if(policyChoice==9){
-              s.VNSpolicy(solution);
+              
+             // do{
+                 s.initStations();
+                 s.x.initDone();
+                 s.setCycleTime(LB); 
+                 s.setMaxStations(m);
+                 s.VNSpolicy(); 
+                 LB=LB+1;
+             // }while(s.getStationList().size()!=dataset2[benchmarkChoice-1].optimum[0]);
               cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tm\tc\tc*\n--------------------------"<<endl; 
-              cout<<benchmarks[benchmarkChoice+1]<<"\t"<<s.getStationList().size()<<"\t"<<s.getCycleTime()<<"\t"<<optumumCycleTime<<endl;
+              cout<<benchmarks[benchmarkChoice+2]<<"\t"<<s.getStationList().size()<<"\t"<<s.getCycleTime()<<"\t"<<optumumCycleTime<<endl;
               cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
               s.printBestSolution();
           }
-          else if(policyChoice==10){
+          else if(policyChoice==10){          
+             s.setCycleTime(LB); 
+             s.setMaxStations(m);
              s.Heuristicpolicy();             
              cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tm\tc\tc*\n--------------------------"<<endl; 
-               cout<<benchmarks[benchmarkChoice+1]<<"\t"<<s.getStationList().size()<<"\t"<<s.getCycleTime()<<"\t"<<optumumCycleTime<<endl;
-              cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
+             cout<<benchmarks[benchmarkChoice+2]<<"\t"<<s.getStationList().size()<<"\t"<<s.getCycleTime()<<"\t"<<optumumCycleTime<<endl;
+             cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
              s.printBestHeuristicSolution();
           }
     }

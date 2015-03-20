@@ -76,7 +76,6 @@ public:
     void setCycleTime(int);
     int getCycleTime();
     int findSolution(std::vector <double> );
-    int findSolutionALBP2(std::vector <double> );
     int findHeuristicSolution(std::vector <int>);
 
 

@@ -17,12 +17,19 @@ parser::parser()
 parser::parser(std::string fn, int type)
 {
     filename=fn;
-    if(type==1)
-        datasetName = "datasets/dataset-1.txt";
-    else
-        datasetName = "datasets/dataset-1.txt"; 
     parser::parseFile();
-    parser::parseDataSetALBP1();
+    
+    if(type==1){
+        
+        datasetName = "datasets/dataset-1.txt";
+        parser::parseDataSetALBP1();}
+    else{
+        
+        datasetName = "datasets/dataset-2.txt"; 
+        parser::parseDataSetALBP2();
+    }
+    
+    
 }
 
 void parser::parseDataSetALBP1(){
@@ -105,6 +112,89 @@ void parser::parseDataSetALBP1(){
 
 }
 
+void parser::parseDataSetALBP2(){
+    
+    std::string datasetsNames[] = {"Buxey", "Gunther", "Kilbridge", "Lutz1", "Lutz2", "Sawyer", "Tonge", "Archus1", "Archus2", "Hahn", "Warnecke", "Wee-Mag", "Lutz3", "Mukherje", "Barthold","Barthold2", "Scholl"};
+    std::string realDatasetsNames[] = {"BUXEY.IN2", "GUNTHER.IN2", "KILBRID.IN2", "LUTZ1.IN2", "LUTZ2.IN2", "SAWYER30.IN2", "TONGE70.IN2", "ARC83.IN2", "ARC111.IN2", "HAHN.IN2", "WARNECKE.IN2", "WEE-MAG.IN2", "LUTZ3.IN2", "MUKHERJE.IN2", "BARTHOLD.IN2","BARTHOLD2.IN2", "SCHOLL.IN2"};
+        // create a file-reading object
+    ifstream fin;
+    fin.open(datasetName);
+    // open a file
+    if (!fin.good())
+    exit(11);
+    // read each line of the file
+  
+    int k =0;
+    while (!fin.eof())
+  {
+    // read an entire line into memory
+    char buf2[MAX_CHARS_PER_LINE];
+    fin.getline(buf2, MAX_CHARS_PER_LINE);
+    
+    // parse the line into blank-delimited tokens
+    int n = 0; // a for-loop index
+    
+    // array to store memory addresses of the tokens in buf
+    const char* token[MAX_TOKENS_PER_LINE] = {}; // initialize to 0
+    
+    // parse the line
+    token[0] = strtok(buf2, DELIMITER2); // first token
+    while(k==0){
+        
+    if(strcmp(token[0],"--------------------------")){
+        
+        k=1;
+    }
+    fin.getline(buf2, MAX_CHARS_PER_LINE);
+   
+    
+    fin.getline(buf2, MAX_CHARS_PER_LINE);
+    fin.getline(buf2, MAX_CHARS_PER_LINE);
+    fin.getline(buf2, MAX_CHARS_PER_LINE);
+ token[0] = strtok(buf2, DELIMITER2);
+    }
+    
+    
+    if (token[0]) // zero if line is blank
+    {
+      for (n = 1; n < MAX_TOKENS_PER_LINE; n++)
+      {
+        token[n] = strtok(0, DELIMITER2); // subsequent tokens
+        if (!token[n]) break; // no more tokens
+      }
+    }
+    
+ 
+        for(int j=0;j<17;j++){
+            
+        if(token[0]==datasetsNames[j]){
+            
+            std::vector<dataset2Node>::iterator it;
+            it = std::find_if(dataset2Vec.begin(), dataset2Vec.end(), 
+         find_name2(realDatasetsNames[j]));
+            if (it != dataset2Vec.end()){
+                it->stations.push_back(atoi(token[1]));
+                it->optimum.push_back(atoi(token[2]));
+            }
+            else{
+                dataset2Node node;
+                node.name=realDatasetsNames[j];
+                node.stations.push_back(atoi(token[1]));
+                node.optimum.push_back(atoi(token[2]));
+                dataset2Vec.push_back(node);
+            }
+            
+        
+        }
+          
+        }
+        
+      //cout << "Token[" << i << "] = " << token[i] << endl;
+    
+   // cout << endl;
+  }
+
+}
 std::vector<weightNode> parser::getWeightsVector()
 {
     return weights;
@@ -260,6 +350,13 @@ std::vector<dataset1Node> parser::getDataset1()
 
 }
 
+std::vector<dataset2Node> parser::getDataset2()
+
+{
+    return dataset2Vec;
+
+}
+
 void parser::printDataset1(){
 
    // print vector
@@ -270,6 +367,22 @@ void parser::printDataset1(){
         for(int j=0;j<dataset1Vec[i].optimum.size();j++)
         {
             cout<<"\t c = "<<dataset1Vec[i].cycletimes[j]<<"\t"<<"m* = "<<dataset1Vec[i].optimum[j]<<endl;
+        }
+    
+    }
+
+}
+
+void parser::printDataset2(){
+
+   // print vector
+    
+    for(int i=0;i<dataset2Vec.size();i++)
+    {
+        cout<<dataset2Vec[i].name<<":"<<endl;
+        for(int j=0;j<dataset2Vec[i].optimum.size();j++)
+        {
+            cout<<"\t c = "<<dataset2Vec[i].stations[j]<<"\t"<<"m* = "<<dataset2Vec[i].optimum[j]<<endl;
         }
     
     }

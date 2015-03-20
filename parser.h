@@ -48,6 +48,14 @@ extern "C" {
     }
 };
 
+    struct find_name2 : std::unary_function<dataset2Node, bool> {
+    std::string name;
+    find_name2(std::string name):name(name) { }
+    bool operator()(dataset2Node const& m) const {
+        return m.name == name;
+    }
+};
+
 
     
     class parser{
@@ -86,8 +94,10 @@ extern "C" {
         void printDependenciesVector();
         
         std::vector<dataset1Node> getDataset1();
+        std::vector<dataset2Node> getDataset2();
         
         void printDataset1();
+        void printDataset2();
     
     };
 
