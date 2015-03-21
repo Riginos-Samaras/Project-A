@@ -6,7 +6,8 @@
 #include <iostream>
 #include <stdio.h>
 #include <valarray>
-
+#include <chrono>
+#include <ctime>
 #include <algorithm>    // std::max
 #include <dirent.h>
 
@@ -130,21 +131,29 @@ int main(int argc, char**argv)
                 if(shallContinue=="N"){break;}else{continue;}
             
             }
-                for (int j=0;j<dataset1[foundPosition].cycletimes.size();j++){
-                    s.initStations();
-                     s.x.initDone();
-                         
+       for (int j=0;j<dataset1[foundPosition].cycletimes.size();j++){
+                        s.initStations();
+                        s.x.initDone();
+                        
+                        std::chrono::time_point<std::chrono::system_clock> start, end;
+                        start = std::chrono::system_clock::now();
+                        
                         cycleTime = dataset1[foundPosition].cycletimes[j];
                         
                         optimumStations = dataset1[foundPosition].optimum[j];
                         if(j==0){   
-                            cout<<"Benchmark:("<<benchmarks[benchmarkChoice+2]<<")\n\n\tc\tm\tm*"<<endl;
+                            cout<<"Benchmark:("<<benchmarks[benchmarkChoice+2]<<")\n\n\tn\tc\tm\tm*\tabs.dev \t%dev \tBD \tSX\tCPU time(sec)"<<endl;
                             
                         }
                 
         s.setCycleTime(cycleTime);
 
-          
+        if(j==0){
+        cout<<"\t"<<datasetSize;
+        }
+        else
+            cout<<"\t";
+                   
 
           if(policyChoice<8){
               s.setPolicy(policies[policyChoice-1]);
@@ -155,22 +164,34 @@ int main(int argc, char**argv)
                   
               }
              // cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tc\tm\tm*\n--------------------------"<<endl; 
-              cout<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<"\t"<<optimumStations<<endl;
+              cout<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<"\t"<<optimumStations;
           }
           else if(policyChoice==8){
               s.VNSpolicy();
              // cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tc\tm\tm*\n--------------------------"<<endl; 
-              cout<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<"\t"<<optimumStations<<endl;
+              cout<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<"\t"<<optimumStations;
               //cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
             //  s.printBestSolution();
           }
           else if(policyChoice==9){
              s.Heuristicpolicy();             
               //cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tc\tm\tm*\n--------------------------"<<endl; 
-              cout<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<"\t"<<optimumStations<<endl;
+              cout<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<"\t"<<optimumStations;
             // cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
             // s.printBestHeuristicSolution();
           }
+        
+                cout<<"\t"<<(int)s.getStationList().size()-(int)optimumStations;          
+                std::cout.unsetf ( std::ios::floatfield ); 
+                std::cout.precision(4);
+                
+                
+                
+                end = std::chrono::system_clock::now();
+                std::chrono::duration<double> elapsed_seconds = end-start;
+                cout<<"\t\t"<<(((float)s.getStationList().size()-(float)optimumStations)/(float)optimumStations)*100<<"\t"<<s.findBT()<<"\t"<<s.findSX()<<"\t"<<elapsed_seconds.count()<<endl;
+                //s.printStations();
+                //<<endl;
                 }
     }
 
@@ -219,7 +240,9 @@ int main(int argc, char**argv)
                         m = dataset2[foundPosition].stations[j];
                         optumumCycleTime = dataset2[foundPosition].optimum[j];
                         if(j==0){   
-                            cout<<"Benchmark:("<<benchmarks[benchmarkChoice+2]<<")\n\n\tm\tc*\tc(LTT)\tc(STT)\tc(MFT)\tc(LNFT)\tc(RPW)\tc(FCFS)\tc(Random)\tc(VNS)\tc(Heuristic)"<<endl;
+                            cout<<"Benchmark:("<<benchmarks[benchmarkChoice+2]<<")\n\n\tn\tc\tm\tm*\tabs.dev \t%dev \tBD \tSX\tCPU time(sec)"<<endl;
+                            
+                            //cout<<"Benchmark:("<<benchmarks[benchmarkChoice+2]<<")\n\n\tm\tc*\tc(LTT)\tc(STT)\tc(MFT)\tc(LNFT)\tc(RPW)\tc(FCFS)\tc(Random)\tc(VNS)\tc(Heuristic)"<<endl;
                             
                         }
 
@@ -240,11 +263,15 @@ int main(int argc, char**argv)
          int rememberedOne=0;
          bool enoughtStations=true;
        
-         cout<<"\n\t"<<m<<"\t"<<optumumCycleTime;
-         for(int pol=0; pol<10; pol++){
+         if(j==0){
+        cout<<"\t"<<datasetSize;
+        }
+        else
+            cout<<"\t";
+                   
+         cout<<"\t"<<m;
              s.initStations();
              s.x.initDone();
-             policyChoice=pol;
              
              LB=std::max(Pmax,Psum/m);     
              UB=std::max(Pmax,2*Psum/m);
@@ -337,9 +364,9 @@ int main(int argc, char**argv)
               }
               //cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tm\tc\tc*\n--------------------------"<<endl; 
               if(LBsolution||MIDCsolution)
-                 cout<<"\t"<<s.getCycleTime();
+                 cout<<"\t"<<s.getCycleTime()<<"\t"<<optumumCycleTime;
               if(UBsolution)
-                 cout<<"\t"<<s.getCycleTime()+1;
+                 cout<<"\t"<<s.getCycleTime()+1<<"\t"<<optumumCycleTime;
               //int ok = beep();
           }
           else if(policyChoice==7){
@@ -366,7 +393,6 @@ int main(int argc, char**argv)
              //cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
              //s.printBestHeuristicSolution();
           }
-         }
           }
     
     }

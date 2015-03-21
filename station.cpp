@@ -83,3 +83,20 @@ void station::printTasks(){
                 
             }
 }
+
+std::vector<node*> station::getTasks(){
+
+    return tasks;
+    
+}
+
+
+int station::findST(){
+    int ST=0;
+    for(int j =0; j<tasks.size();j++)
+    {
+        ST=ST+tasks[j]->getValue();
+    }
+    return ST;
+ 
+}

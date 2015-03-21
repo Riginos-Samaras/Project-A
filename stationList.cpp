@@ -665,3 +665,22 @@ bool stationList::pushTaskToStation(node *nd){
             this->setBestHeuristicSolution(BestSolution);
      
     }
+    
+    int stationList::findBT(){
+        int BT=0;
+        for(int i =0; i<stations.size();i++)
+         {
+                BT=BT+cycleTime-stations[i].findST();        
+         }
+        return BT;
+    }
+    
+    
+     double stationList::findSX(){
+        int SX=0;
+        for(int i =0; i<stations.size();i++)
+         {
+                SX=SX+pow((double)cycleTime-(double)stations[i].findST(),2.0);        
+         }
+        return sqrt((double)SX);
+    }

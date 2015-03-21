@@ -12,6 +12,7 @@
 #include <iostream>
 #include "station.h"
 #include "nodeGraph.h"
+#include <math.h>
 
 
  enum string_policy {
@@ -75,6 +76,8 @@ public:
     std::vector <int> printBestHeuristicSolution();
     void setCycleTime(int);
     int getCycleTime();
+    int findBT();
+    double findSX();
     int findSolution(std::vector <double> );
     int findHeuristicSolution(std::vector <int>);
 

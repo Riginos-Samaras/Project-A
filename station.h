@@ -41,7 +41,10 @@ public:
     void insertTask(node*);
     
     void printTasks();
-
+    
+    std::vector<node*> getTasks();
+    
+    int findST();
 };
 
 #endif	/* STATION_H */
