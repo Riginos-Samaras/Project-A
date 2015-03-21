@@ -183,13 +183,13 @@ int main(int argc, char**argv)
         
                 cout<<"\t"<<(int)s.getStationList().size()-(int)optimumStations;          
                 std::cout.unsetf ( std::ios::floatfield ); 
-                std::cout.precision(4);
+                std::cout.precision(2);
                 
                 
                 
                 end = std::chrono::system_clock::now();
                 std::chrono::duration<double> elapsed_seconds = end-start;
-                cout<<"\t\t"<<(((float)s.getStationList().size()-(float)optimumStations)/(float)optimumStations)*100<<"\t"<<s.findBT()<<"\t"<<s.findSX()<<"\t"<<elapsed_seconds.count()<<endl;
+                cout<<"\t\t"<<(((float)s.getStationList().size()-(float)optimumStations)/(float)optimumStations)*100<<"\t"<<s.findBT()<<"\t"<<s.findSX()<<"\t"<<(float)elapsed_seconds.count()<<endl;
                 //s.printStations();
                 //<<endl;
                 }
@@ -204,13 +204,13 @@ int main(int argc, char**argv)
          bool LBsolution=false;
          bool UBsolution=false;   
          bool MIDCsolution=false;
-       if(policyChoice>0&&policyChoice<8) 
-            do{ 
-                     cout<<"Choose a solution :\n1)LB\n2)UB\n3)MIDC"; 
-                     cout<<"\nSolution #:";      
-                     cin>>solution;
-
-             }while(solution!=1&&solution!=2&&solution!=3);  
+//       if(policyChoice>0&&policyChoice<8) 
+//            do{ 
+//                     cout<<"Choose a solution :\n1)LB\n2)UB\n3)MIDC"; 
+//                     cout<<"\nSolution #:";      
+//                     cin>>solution;
+//
+//             }while(solution!=1&&solution!=2&&solution!=3);  
                 
             bool found=false;
             int foundPosition=0;
@@ -240,7 +240,8 @@ int main(int argc, char**argv)
                         m = dataset2[foundPosition].stations[j];
                         optumumCycleTime = dataset2[foundPosition].optimum[j];
                         if(j==0){   
-                            cout<<"Benchmark:("<<benchmarks[benchmarkChoice+2]<<")\n\n\tn\tc\tm\tm*\tabs.dev \t%dev \tBD \tSX\tCPU time(sec)"<<endl;
+                            cout<<"Benchmark:("<<benchmarks[benchmarkChoice+2];
+                            cout<<")\n\n\tn\tm\tc*\tc\t%dev\tBD\tSX\tCPU(time)\tc\t%dev\tBD\tSX\tCPU(time)\tc\t%dev\tBD\tSX\tCPU(time)"<<endl;
                             
                             //cout<<"Benchmark:("<<benchmarks[benchmarkChoice+2]<<")\n\n\tm\tc*\tc(LTT)\tc(STT)\tc(MFT)\tc(LNFT)\tc(RPW)\tc(FCFS)\tc(Random)\tc(VNS)\tc(Heuristic)"<<endl;
                             
@@ -264,41 +265,63 @@ int main(int argc, char**argv)
          bool enoughtStations=true;
        
          if(j==0){
-        cout<<"\t"<<datasetSize;
+        cout<<"\n\t"<<datasetSize;
         }
         else
-            cout<<"\t";
+            cout<<"\n\t";
                    
-         cout<<"\t"<<m;
+         cout<<"\t"<<m<<"\t"<<optumumCycleTime;
              s.initStations();
              s.x.initDone();
              
              LB=std::max(Pmax,Psum/m);     
              UB=std::max(Pmax,2*Psum/m);
              midc=(LB+UB)/2;
+             minc=LB;
+             maxc=UB; 
              
-             if(solution==1){
-              LBsolution=true;          
-              s.setCycleTime(LB);
-               cycleTime=LB;
-           }
-         
-            if(solution==2){
-               UBsolution=true;
-               s.setCycleTime(UB);
-               cycleTime=UB;
-            }
-             
-            if(solution==3){
-               MIDCsolution=true;
-               s.setCycleTime(midc);
-               cycleTime=midc;
-            }
-            minc=LB;
-            maxc=UB; 
           if(policyChoice<7){
               s.setPolicy(policies[policyChoice]);
+              for(int j=0; j<3; j++){
+                   std::chrono::time_point<std::chrono::system_clock> start, end;
+                   start = std::chrono::system_clock::now();
+                   s.initStations();
+                   s.x.initDone();
+                   LB=std::max(Pmax,Psum/m);     
+                   UB=std::max(Pmax,2*Psum/m);
+                   
+                   midc=(LB+UB)/2;
+                   minc=LB;
+                   maxc=UB; 
+                 if(j==0){
+                     LBsolution=true;   
+                     UBsolution=false;
+                     MIDCsolution=false;
+                     s.setCycleTime(LB);
+                     cycleTime=LB;
+                     
+                 }
+
+                  if(j==1){
+                     LBsolution=false;  
+                     UBsolution=true;
+                     MIDCsolution=false;
+                     s.setCycleTime(UB);
+                     cycleTime=UB;
+                     
+                  }
+
+                  if(j==2){
+                     LBsolution=false;  
+                     UBsolution=false;
+                     MIDCsolution=true;
+                     s.setCycleTime(midc);
+                     cycleTime=midc;
+                     
+                  }
               if(LBsolution||UBsolution){   
+                  
+                    //cout<<"\tLB:"<<LB<<" UB:"<<UB<<" midc:"<<midc;
                     for(int i=0;i<datasetSize;i++)
                     {
                         node * decidedNode=s.decideNode(s.x.getQueue());
@@ -363,11 +386,18 @@ int main(int argc, char**argv)
                   }
               }
               //cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tm\tc\tc*\n--------------------------"<<endl; 
-              if(LBsolution||MIDCsolution)
-                 cout<<"\t"<<s.getCycleTime()<<"\t"<<optumumCycleTime;
-              if(UBsolution)
-                 cout<<"\t"<<s.getCycleTime()+1<<"\t"<<optumumCycleTime;
-              //int ok = beep();
+                   
+             end = std::chrono::system_clock::now();
+             std::chrono::duration<double> elapsed_seconds = end-start;
+             //cout<<"\t\t"<<(((float)s.getStationList().size()-(float)optimumStations)/(float)optimumStations)*100<<"\t"<<s.findBT()<<"\t"<<s.findSX()<<"\t"<<elapsed_seconds.count()<<endl;
+               
+             // if(LBsolution||MIDCsolution)
+                 cout<<"\t"<<s.getCycleTime()<<"\t"<<(((float)s.getCycleTime()-(float)optumumCycleTime)/(float)optumumCycleTime)*100<<"\t"<<s.findBT()<<"\t"<<s.findSX()<<"\t"<<elapsed_seconds.count();
+             // if(UBsolution)
+                // cout<<"\t"<<s.getCycleTime();
+              
+              
+              }
           }
           else if(policyChoice==7){
               
