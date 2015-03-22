@@ -15,7 +15,7 @@ using namespace::std;
 int main(int argc, char**argv)
 {
     
-    do{
+    
     // Prints welcome message...
     std::cout << "Welcome to ALBP1 and ALBP2 algorithms" << std::endl;
     int Algorithm=0;do{
@@ -39,21 +39,7 @@ int main(int argc, char**argv)
       return EXIT_FAILURE;
     }
     
-    int benchmarkChoice=-1;
-    do{
-    std::cout<<endl<<"Choose a benchmark:"<<std::endl;
-    for(int i=3; i<benchmarks.size();i++){
-                
-                    std::cout<<i-2<<")"<<benchmarks[i]<<std::endl;
-               
-                
-            }
-    
-    std::cout<<"Benchmark #: ";
-    std::cin>>benchmarkChoice;
-    
-    }while((benchmarkChoice>25)||(benchmarkChoice<1));
-    cout<<endl<<"You have chose: "<<benchmarks[benchmarkChoice+2];
+
     const string policies[] = {"LTT","STT","MFT","LNFT","RPW","FCFS","Random","VNS","Heuristic"};
     int policyChoice =0;
     do{
@@ -70,6 +56,48 @@ int main(int argc, char**argv)
     cout<<"Policy #: ";
     cin>>policyChoice;
     }while((policyChoice>10)||(policyChoice<1));
+    
+    ofstream myfile;
+    if(Algorithm==1)
+    {
+        
+        myfile.open ("outputs/ALBP1/"+policies[policyChoice-1]+".txt");
+        myfile << "----------------------------------------------------------------------------------------------------------------------------\n";
+        myfile<<"Problem\t\tn\tc\tm\tm*\tabs.dev \t%dev \t\tBD \t\tSX\t\tCPU time(sec)"<<endl;
+        myfile << "----------------------------------------------------------------------------------------------------------------------------\n";
+        
+    
+    }
+        if(Algorithm==2)
+    {
+        
+        myfile.open ("outputs/ALBP2/"+policies[policyChoice-1]+".txt");
+        myfile << "----------------------------------------------------------------------------------------------------------------------------\n";
+        myfile << "Problem\t\tn\tm\tc*\tc\t%dev\tBD\tSX\tCPU(time)\tc\t%dev\tBD\tSX\tCPU(time)\tc\t%dev\tBD\tSX\tCPU(time)"<<endl;
+        myfile << "----------------------------------------------------------------------------------------------------------------------------\n";
+        
+    
+    }
+    
+    
+    do{ //The big loop that asks as if we want to continue
+    
+    int benchmarkChoice=-1;
+    do{
+    std::cout<<endl<<"Choose a benchmark:"<<std::endl;
+    for(int i=3; i<benchmarks.size();i++){
+                
+                    std::cout<<i-2<<")"<<benchmarks[i]<<std::endl;
+               
+                
+            }
+    
+    std::cout<<"Benchmark #: ";
+    std::cin>>benchmarkChoice;
+    
+    }while((benchmarkChoice>25)||(benchmarkChoice<1));
+    cout<<endl<<"You have chose: "<<benchmarks[benchmarkChoice+2];
+    
     std::vector<dataset1Node> dataset1;
     std::vector<dataset2Node> dataset2;
     parser p1("benchmarks/"+benchmarks[benchmarkChoice+2],Algorithm);
@@ -142,18 +170,22 @@ int main(int argc, char**argv)
                         
                         optimumStations = dataset1[foundPosition].optimum[j];
                         if(j==0){   
-                            cout<<"Benchmark:("<<benchmarks[benchmarkChoice+2]<<")\n\n\tn\tc\tm\tm*\tabs.dev \t%dev \tBD \tSX\tCPU time(sec)"<<endl;
-                            
+                           // cout<<"Benchmark:("<<benchmarks[benchmarkChoice+2]<<")\n\n\tn\tc\tm\tm*\tabs.dev \t%dev \tBD \tSX\tCPU time(sec)"<<endl;
+//                            cout << "------------------------------------------------------------------------------------------\n";
+//                            cout<<"Problem\t\tn\tc\tm\tm*\tabs.dev \t%dev \tBD \tSX\tCPU time(sec)"<<endl<<endl;
+//                            cout << "------------------------------------------------------------------------------------------\n";
                         }
                 
         s.setCycleTime(cycleTime);
 
         if(j==0){
-        cout<<"\t"<<datasetSize;
+        cout<<benchmarks[benchmarkChoice+2]<<"\t"<<datasetSize;
+        myfile<<benchmarks[benchmarkChoice+2]<<"\t"<<datasetSize;
         }
-        else
-            cout<<"\t";
-                   
+        else{
+            cout<<"\t\t";
+            myfile<<"\t\t";
+        }      
 
           if(policyChoice<8){
               s.setPolicy(policies[policyChoice-1]);
@@ -165,11 +197,13 @@ int main(int argc, char**argv)
               }
              // cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tc\tm\tm*\n--------------------------"<<endl; 
               cout<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<"\t"<<optimumStations;
+              myfile<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<"\t"<<optimumStations;
           }
           else if(policyChoice==8){
               s.VNSpolicy();
              // cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tc\tm\tm*\n--------------------------"<<endl; 
               cout<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<"\t"<<optimumStations;
+              myfile<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<"\t"<<optimumStations;
               //cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
             //  s.printBestSolution();
           }
@@ -177,10 +211,12 @@ int main(int argc, char**argv)
              s.Heuristicpolicy();             
               //cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tc\tm\tm*\n--------------------------"<<endl; 
               cout<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<"\t"<<optimumStations;
+              myfile<<"\t"<<cycleTime<<"\t"<<s.getStationList().size()<<"\t"<<optimumStations;
             // cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
             // s.printBestHeuristicSolution();
           }
         
+                myfile<<"\t"<<(int)s.getStationList().size()-(int)optimumStations;
                 cout<<"\t"<<(int)s.getStationList().size()-(int)optimumStations;          
                 std::cout.unsetf ( std::ios::floatfield ); 
                 std::cout.precision(2);
@@ -189,8 +225,10 @@ int main(int argc, char**argv)
                 
                 end = std::chrono::system_clock::now();
                 std::chrono::duration<double> elapsed_seconds = end-start;
-                cout<<"\t\t"<<(((float)s.getStationList().size()-(float)optimumStations)/(float)optimumStations)*100<<"\t"<<s.findBT()<<"\t"<<s.findSX()<<"\t"<<(float)elapsed_seconds.count()<<endl;
-                //s.printStations();
+                cout<<"\t\t"<<(((float)s.getStationList().size()-(float)optimumStations)/(float)optimumStations)*100<<"\t\t"<<s.findBT()<<"\t\t"<<s.findSX()<<"\t\t"<<(float)elapsed_seconds.count()<<endl;
+                myfile<<"\t\t"<<(((float)s.getStationList().size()-(float)optimumStations)/(float)optimumStations)*100<<"\t\t"<<s.findBT()<<"\t\t"<<s.findSX()<<"\t\t"<<(float)elapsed_seconds.count()<<endl;
+
+                //s.printStations();1
                 //<<endl;
                 }
     }
@@ -240,9 +278,10 @@ int main(int argc, char**argv)
                         m = dataset2[foundPosition].stations[j];
                         optumumCycleTime = dataset2[foundPosition].optimum[j];
                         if(j==0){   
-                            cout<<"Benchmark:("<<benchmarks[benchmarkChoice+2];
-                            cout<<")\n\n\tn\tm\tc*\tc\t%dev\tBD\tSX\tCPU(time)\tc\t%dev\tBD\tSX\tCPU(time)\tc\t%dev\tBD\tSX\tCPU(time)"<<endl;
-                            
+//                            cout<<"Benchmark:("<<benchmarks[benchmarkChoice+2];
+//                            cout<<")\n\n\tn\tm\tc*\tc\t%dev\tBD\tSX\tCPU(time)\tc\t%dev\tBD\tSX\tCPU(time)\tc\t%dev\tBD\tSX\tCPU(time)"<<endl;
+//                            myfile<<"Benchmark:("<<benchmarks[benchmarkChoice+2];
+//                            myfile<<")\n\n\tn\tm\tc*\tc\t%dev\tBD\tSX\tCPU(time)\tc\t%dev\tBD\tSX\tCPU(time)\tc\t%dev\tBD\tSX\tCPU(time)"<<endl;
                             //cout<<"Benchmark:("<<benchmarks[benchmarkChoice+2]<<")\n\n\tm\tc*\tc(LTT)\tc(STT)\tc(MFT)\tc(LNFT)\tc(RPW)\tc(FCFS)\tc(Random)\tc(VNS)\tc(Heuristic)"<<endl;
                             
                         }
@@ -265,12 +304,16 @@ int main(int argc, char**argv)
          bool enoughtStations=true;
        
          if(j==0){
-        cout<<"\n\t"<<datasetSize;
+        myfile<<benchmarks[benchmarkChoice+2]<<"\t"<<datasetSize;
+        cout<<benchmarks[benchmarkChoice+2]<<"\t"<<datasetSize;
+        
         }
-        else
+        else{
+            myfile<<"\n\t";
             cout<<"\n\t";
-                   
+        }
          cout<<"\t"<<m<<"\t"<<optumumCycleTime;
+         myfile<<"\t"<<m<<"\t"<<optumumCycleTime;
              s.initStations();
              s.x.initDone();
              
@@ -393,7 +436,9 @@ int main(int argc, char**argv)
                
              // if(LBsolution||MIDCsolution)
                  cout<<"\t"<<s.getCycleTime()<<"\t"<<(((float)s.getCycleTime()-(float)optumumCycleTime)/(float)optumumCycleTime)*100<<"\t"<<s.findBT()<<"\t"<<s.findSX()<<"\t"<<elapsed_seconds.count();
-             // if(UBsolution)
+                 myfile<<"\t"<<s.getCycleTime()<<"\t"<<(((float)s.getCycleTime()-(float)optumumCycleTime)/(float)optumumCycleTime)*100<<"\t"<<s.findBT()<<"\t"<<s.findSX()<<"\t"<<elapsed_seconds.count();
+
+                 // if(UBsolution)
                 // cout<<"\t"<<s.getCycleTime();
               
               
@@ -411,6 +456,8 @@ int main(int argc, char**argv)
              // }while(s.getStationList().size()!=m);
               //cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tm\tc\tc*\n--------------------------"<<endl; 
               cout<<"\t\t"<<s.getCycleTime();
+              myfile<<"\t\t"<<s.getCycleTime();
+
               //cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
               //s.printBestSolution();
           }
@@ -420,17 +467,19 @@ int main(int argc, char**argv)
              s.Heuristicpolicy();             
             // cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tm\tc\tc*\n--------------------------"<<endl; 
              cout<<"\t"<<s.getCycleTime();
+             myfile<<"\t"<<s.getCycleTime();
              //cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
              //s.printBestHeuristicSolution();
           }
           }
     
     }
+    myfile<<endl;
     string shallContinue;
     cout<<"\nShall we continue?(Y/N)"<<endl;
     cin>>shallContinue; 
     if(shallContinue=="N"){break;}else{continue;}
     }while(true);
-    
+    myfile.close();
     return 8;
 }

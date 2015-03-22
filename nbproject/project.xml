@@ -14,6 +14,7 @@
                 <sourceRootElem>data</sourceRootElem>
                 <sourceRootElem>benchmarks</sourceRootElem>
                 <sourceRootElem>datasets</sourceRootElem>
+                <sourceRootElem>outputs</sourceRootElem>
             </sourceRootList>
             <confList>
                 <confElem>

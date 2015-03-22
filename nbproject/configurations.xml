@@ -44,6 +44,12 @@
         <itemPath>datasets/dataset-1.txt</itemPath>
         <itemPath>datasets/dataset-2.txt</itemPath>
       </logicalFolder>
+      <logicalFolder name="outputs" displayName="outputs" projectFiles="true">
+        <logicalFolder name="ALBP1" displayName="ALBP1" projectFiles="true">
+        </logicalFolder>
+        <logicalFolder name="ALBP2" displayName="ALBP2" projectFiles="true">
+        </logicalFolder>
+      </logicalFolder>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -65,6 +71,7 @@
     <Elem>data</Elem>
     <Elem>benchmarks</Elem>
     <Elem>datasets</Elem>
+    <Elem>outputs</Elem>
   </sourceRootList>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
