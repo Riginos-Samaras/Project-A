@@ -73,7 +73,7 @@ int main(int argc, char**argv)
         
         myfile.open ("outputs/ALBP2/"+policies[policyChoice-1]+".txt");
         myfile << "----------------------------------------------------------------------------------------------------------------------------\n";
-        myfile << "Problem\t\tn\tm\tc*\tc\t%dev\tBD\tSX\tCPU(time)\tc\t%dev\tBD\tSX\tCPU(time)\tc\t%dev\tBD\tSX\tCPU(time)"<<endl;
+        myfile << "Problem\t\tn\tm\tc*\t\tc\t%dev\tBD\tSX\tCPU(time)\t\tc\t%dev\tBD\tSX\tCPU(time)\t\tc\t%dev\tBD\tSX\tCPU(time)"<<endl;
         myfile << "----------------------------------------------------------------------------------------------------------------------------\n";
         
     
@@ -309,13 +309,14 @@ int main(int argc, char**argv)
         
         }
         else{
-            myfile<<"\n\t";
-            cout<<"\n\t";
+            myfile<<"\t\t";
+            cout<<"\t\t";
         }
          cout<<"\t"<<m<<"\t"<<optumumCycleTime;
          myfile<<"\t"<<m<<"\t"<<optumumCycleTime;
              s.initStations();
              s.x.initDone();
+             s.setAvailableStations(m);
              
              LB=std::max(Pmax,Psum/m);     
              UB=std::max(Pmax,2*Psum/m);
@@ -323,13 +324,14 @@ int main(int argc, char**argv)
              minc=LB;
              maxc=UB; 
              
-          if(policyChoice<7){
+          if(policyChoice<8){
               s.setPolicy(policies[policyChoice]);
               for(int j=0; j<3; j++){
                    std::chrono::time_point<std::chrono::system_clock> start, end;
                    start = std::chrono::system_clock::now();
                    s.initStations();
                    s.x.initDone();
+                   s.setAvailableStations(m);
                    LB=std::max(Pmax,Psum/m);     
                    UB=std::max(Pmax,2*Psum/m);
                    
@@ -351,6 +353,7 @@ int main(int argc, char**argv)
                      MIDCsolution=false;
                      s.setCycleTime(UB);
                      cycleTime=UB;
+                     //cout<<"<"<<UB<<">";
                      
                   }
 
@@ -391,14 +394,16 @@ int main(int argc, char**argv)
                             s.setCycleTime(UB); 
                             s.initStations();
                             s.x.initDone();
-                            rememberedOne=UB;
+                            rememberedOne=UB; 
+                            //cout<<"<"<<UB<<">";
                         } 
 
-                      }
+                      
                           if(!enoughtStations&&i==datasetSize-1){                
                               s.setCycleTime(rememberedOne);
                               break;
-                        } 
+                        }
+                      }
                        }  
               }
               else if(MIDCsolution){   
@@ -435,8 +440,11 @@ int main(int argc, char**argv)
              //cout<<"\t\t"<<(((float)s.getStationList().size()-(float)optimumStations)/(float)optimumStations)*100<<"\t"<<s.findBT()<<"\t"<<s.findSX()<<"\t"<<elapsed_seconds.count()<<endl;
                
              // if(LBsolution||MIDCsolution)
-                 cout<<"\t"<<s.getCycleTime()<<"\t"<<(((float)s.getCycleTime()-(float)optumumCycleTime)/(float)optumumCycleTime)*100<<"\t"<<s.findBT()<<"\t"<<s.findSX()<<"\t"<<elapsed_seconds.count();
-                 myfile<<"\t"<<s.getCycleTime()<<"\t"<<(((float)s.getCycleTime()-(float)optumumCycleTime)/(float)optumumCycleTime)*100<<"\t"<<s.findBT()<<"\t"<<s.findSX()<<"\t"<<elapsed_seconds.count();
+             if(UBsolution)
+                 s.setCycleTime(s.getCycleTime()+1);
+             //if(j==0){cout<<"\t";myfile<<"\t";}
+                 cout<<"\t\t"<<s.getCycleTime()<<"\t"<<(((float)s.getCycleTime()-(float)optumumCycleTime)/(float)optumumCycleTime)*100<<"\t"<<s.findBT()<<"\t"<<s.findSX()<<"\t"<<elapsed_seconds.count();
+                 myfile<<"\t\t"<<s.getCycleTime()<<"\t"<<(((float)s.getCycleTime()-(float)optumumCycleTime)/(float)optumumCycleTime)*100<<"\t"<<s.findBT()<<"\t"<<s.findSX()<<"\t"<<elapsed_seconds.count();
 
                  // if(UBsolution)
                 // cout<<"\t"<<s.getCycleTime();
@@ -444,16 +452,17 @@ int main(int argc, char**argv)
               
               }
           }
-          else if(policyChoice==7){
+          else if(policyChoice==8){
               
-           //  do{
+             do{
                  s.initStations();
                  s.x.initDone();
                  s.setCycleTime(LB); 
                  s.setMaxStations(m);
+                 s.setAvailableStations(m);
                  s.VNSpolicy(); 
                  LB=LB+1;
-             // }while(s.getStationList().size()!=m);
+              }while(s.getStationList().size()!=m);
               //cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tm\tc\tc*\n--------------------------"<<endl; 
               cout<<"\t\t"<<s.getCycleTime();
               myfile<<"\t\t"<<s.getCycleTime();
@@ -461,16 +470,24 @@ int main(int argc, char**argv)
               //cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
               //s.printBestSolution();
           }
-          else if(policyChoice==8){          
-             s.setCycleTime(LB); 
-             s.setMaxStations(m);
-             s.Heuristicpolicy();             
+          else if(policyChoice==9){    
+              do{
+                    s.initStations();
+                    s.x.initDone();
+                    s.setCycleTime(LB); 
+                    s.setMaxStations(m);
+                    s.setAvailableStations(m);
+                    s.Heuristicpolicy(); 
+                   LB=LB+1; 
+              }while(s.getStationList().size()!=m);           
             // cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tm\tc\tc*\n--------------------------"<<endl; 
-             cout<<"\t"<<s.getCycleTime();
-             myfile<<"\t"<<s.getCycleTime();
+             cout<<"\t\t"<<s.getCycleTime();
+             myfile<<"\t\t"<<s.getCycleTime();
              //cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
              //s.printBestHeuristicSolution();
           }
+             myfile<<endl;
+             cout<<endl;
           }
     
     }
