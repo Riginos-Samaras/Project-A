@@ -10,6 +10,7 @@
 #include <ctime>
 #include <algorithm>    // std::max
 #include <dirent.h>
+#include <iomanip>
 
 using namespace::std; 
 int main(int argc, char**argv)
@@ -72,17 +73,32 @@ int main(int argc, char**argv)
     {
         
         myfile.open ("outputs/ALBP2/"+policies[policyChoice-1]+".txt");
-        myfile << "----------------------------------------------------------------------------------------------------------------------------\n";
-        myfile << "Problem\t\tn\tm\tc*\t\tc\t%dev\tBD\tSX\tCPU(time)\t\tc\t%dev\tBD\tSX\tCPU(time)\t\tc\t%dev\tBD\tSX\tCPU(time)"<<endl;
-        myfile << "----------------------------------------------------------------------------------------------------------------------------\n";
+        myfile << "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n";
+        myfile << "\t\t\t\t\t\t\t\tLower Bound\t\t\t\t\tUpper Bound\t\t\t\t\tBinary Search"<<endl;
+        myfile << "\t\t\t\t\t\t---------------------------------------------\t\t---------------------------------------------\t\t---------------------------------------------"<<endl;
+        myfile << "Problem\t\tn\tm\tc*\t\tc\t%dev\tBD\tSX\tCPU(time)\t\tc\t%dev\tBD\tSX\tCPU(time)\t\tc\t%dev\tBD\tSX\tCPU(time)"<<endl<<endl;
+        myfile << "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
         
     
     }
     
-    
-    do{ //The big loop that asks as if we want to continue
-    
+    int policyQueue[] = {17,5,11,10,16,18,20,9,6,21,13,7,12,8,24,23,25,2,14,15,19,1,3,4,22};
+    std::string choice;
+    int p=0;
     int benchmarkChoice=-1;
+    cout<<"Would you like to manually select policies?(Y)/(N)"<<endl;
+    cout<<"Choice: ";cin>>choice;
+   
+    do{ //The big loop that asks as if we want to continue
+        if(choice == "N"){
+            if(p==25)
+                break;
+           
+            benchmarkChoice=policyQueue[p];
+            p++;
+        }
+        else{     
+    
     do{
     std::cout<<endl<<"Choose a benchmark:"<<std::endl;
     for(int i=3; i<benchmarks.size();i++){
@@ -97,7 +113,7 @@ int main(int argc, char**argv)
     
     }while((benchmarkChoice>25)||(benchmarkChoice<1));
     cout<<endl<<"You have chose: "<<benchmarks[benchmarkChoice+2];
-    
+    }
     std::vector<dataset1Node> dataset1;
     std::vector<dataset2Node> dataset2;
     parser p1("benchmarks/"+benchmarks[benchmarkChoice+2],Algorithm);
@@ -107,6 +123,7 @@ int main(int argc, char**argv)
         dataset2=p1.getDataset2();
     
     datasetSize = p1.getDatasetSize();
+    
     stationList s;
     int cycleTime = 0;
     int optimumStations=0;
@@ -151,7 +168,7 @@ int main(int argc, char**argv)
                 }
                 //cin>>cycleTime;
                 if (!found){
-                cout<<"There no values for the selected benchmark in the dataset"<<endl;
+                cout<<"There no values for the selected benchmark in the dataset: "<<benchmarks[benchmarkChoice+2]<<endl;
                 cout<<endl;
                 string shallContinue;
                 cout<<"Shall we continue?(Y/N)"<<endl;
@@ -261,7 +278,7 @@ int main(int argc, char**argv)
                     }
                 }
             if (!found){
-                cout<<"There no values for the selected benchmark in the dataset"<<endl;
+                cout<<"There no values for the selected benchmark in the dataset: "<<benchmarks[benchmarkChoice+2]<<endl;
                 cout<<endl;
                 string shallContinue;
                 cout<<"Shall we continue?(Y/N)"<<endl;
@@ -304,7 +321,7 @@ int main(int argc, char**argv)
          bool enoughtStations=true;
        
          if(j==0){
-        myfile<<benchmarks[benchmarkChoice+2]<<"\t"<<datasetSize;
+        myfile<<benchmarks[benchmarkChoice+2]<<setw(4)<<"\t"<<datasetSize;
         cout<<benchmarks[benchmarkChoice+2]<<"\t"<<datasetSize;
         
         }
@@ -453,7 +470,8 @@ int main(int argc, char**argv)
               }
           }
           else if(policyChoice==8){
-              
+              std::chrono::time_point<std::chrono::system_clock> start, end;
+              start = std::chrono::system_clock::now();
              do{
                  s.initStations();
                  s.x.initDone();
@@ -463,9 +481,12 @@ int main(int argc, char**argv)
                  s.VNSpolicy(); 
                  LB=LB+1;
               }while(s.getStationList().size()!=m);
+              end = std::chrono::system_clock::now();
+             std::chrono::duration<double> elapsed_seconds = end-start;
               //cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tm\tc\tc*\n--------------------------"<<endl; 
-              cout<<"\t\t"<<s.getCycleTime();
-              myfile<<"\t\t"<<s.getCycleTime();
+              cout<<"\t\t"<<s.getCycleTime()<<"\t"<<(((float)s.getCycleTime()-(float)optumumCycleTime)/(float)optumumCycleTime)*100<<"\t"<<s.findBT()<<"\t"<<s.findSX()<<"\t"<<elapsed_seconds.count();
+              myfile<<"\t\t"<<s.getCycleTime()<<"\t"<<(((float)s.getCycleTime()-(float)optumumCycleTime)/(float)optumumCycleTime)*100<<"\t"<<s.findBT()<<"\t"<<s.findSX()<<"\t"<<elapsed_seconds.count();
+
 
               //cout<<endl<<"Optimal solutions vector\n--------------------------"<<endl;
               //s.printBestSolution();
@@ -492,11 +513,15 @@ int main(int argc, char**argv)
     
     }
     myfile<<endl;
+    if(choice != "N"){
     string shallContinue;
     cout<<"\nShall we continue?(Y/N)"<<endl;
     cin>>shallContinue; 
     if(shallContinue=="N"){break;}else{continue;}
+    }
+   
     }while(true);
+    
     myfile.close();
     return 8;
 }
