@@ -11,6 +11,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <fstream>
 #include "nodeGraph.h"
 
 class station{
@@ -41,6 +42,7 @@ public:
     void insertTask(node*);
     
     void printTasks();
+    void printTasks(std::ofstream& myfile);
     
     std::vector<node*> getTasks();
     

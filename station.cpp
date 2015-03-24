@@ -83,6 +83,19 @@ void station::printTasks(){
                 
             }
 }
+void station::printTasks(std::ofstream& myfile){
+     for(int i=0; i<tasks.size();i++){
+                if(i==(tasks.size()-1)){
+                    cout<<tasks[i]->getName()<<endl;
+                    myfile<<tasks[i]->getName()<<endl;
+                    
+                }
+                else{
+                    cout<<tasks[i]->getName()<<"->";
+                    myfile<<tasks[i]->getName()<<"->";
+                }
+            }
+}
 
 std::vector<node*> station::getTasks(){
 

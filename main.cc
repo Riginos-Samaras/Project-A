@@ -59,9 +59,11 @@ int main(int argc, char**argv)
     }while((policyChoice>10)||(policyChoice<1));
     
     ofstream myfile;
+    ofstream stationAlocationFile;
+    
     if(Algorithm==1)
     {
-        
+        stationAlocationFile.open("outputs/ALBP1/"+policies[policyChoice-1]+"_Station_Alocation.txt");
         myfile.open ("outputs/ALBP1/"+policies[policyChoice-1]+".txt");
         myfile << "----------------------------------------------------------------------------------------------------------------------------\n";
         myfile<<"Problem\t\tn\tc\tm\tm*\tabs.dev \t%dev \t\tBD \t\tSX\t\tCPU time(sec)"<<endl;
@@ -71,7 +73,7 @@ int main(int argc, char**argv)
     }
         if(Algorithm==2)
     {
-        
+        stationAlocationFile.open ("outputs/ALBP2/"+policies[policyChoice-1]+"_Station_Alocation.txt");
         myfile.open ("outputs/ALBP2/"+policies[policyChoice-1]+".txt");
         myfile << "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n";
         myfile << "\t\t\t\t\t\t\t\tLower Bound\t\t\t\t\tUpper Bound\t\t\t\t\tBinary Search"<<endl;
@@ -235,18 +237,20 @@ int main(int argc, char**argv)
         
                 myfile<<"\t"<<(int)s.getStationList().size()-(int)optimumStations;
                 cout<<"\t"<<(int)s.getStationList().size()-(int)optimumStations;          
-                std::cout.unsetf ( std::ios::floatfield ); 
-                std::cout.precision(2);
+                
                 
                 
                 
                 end = std::chrono::system_clock::now();
                 std::chrono::duration<double> elapsed_seconds = end-start;
-                cout<<"\t\t"<<(((float)s.getStationList().size()-(float)optimumStations)/(float)optimumStations)*100<<"\t\t"<<s.findBT()<<"\t\t"<<s.findSX()<<"\t\t"<<(float)elapsed_seconds.count()<<endl;
-                myfile<<"\t\t"<<(((float)s.getStationList().size()-(float)optimumStations)/(float)optimumStations)*100<<"\t\t"<<s.findBT()<<"\t\t"<<s.findSX()<<"\t\t"<<(float)elapsed_seconds.count()<<endl;
-
-                //s.printStations();1
-                //<<endl;
+                std::cout.unsetf ( std::ios::floatfield ); 
+                std::cout.precision(2);
+                cout<<"\t\t"<<float((((float)s.getStationList().size()-(float)optimumStations)/(float)optimumStations)*100)<<"\t\t"<<float(s.findBT())<<"\t\t"<<(float)s.findSX()<<setprecision(2)<<"\t\t"<<(float)elapsed_seconds.count()<<endl;
+                myfile<<"\t\t"<<float((((float)s.getStationList().size()-(float)optimumStations)/(float)optimumStations)*100)<<setprecision(3)<<"\t\t"<<s.findBT()<<"\t\t"<<(float)s.findSX()<<setprecision(3)<<"\t\t"<<(float)elapsed_seconds.count()<<setprecision(3)<<endl;
+                    stationAlocationFile<<"Benchmark:"<<benchmarks[benchmarkChoice+2]<<"\tGiven c:"<<cycleTime<<endl<<endl;
+                    stationAlocationFile<<"Task Allocation in Stations:\n\n";
+                    s.printStations(stationAlocationFile);
+                    stationAlocationFile<<endl;
                 }
     }
 
@@ -277,6 +281,7 @@ int main(int argc, char**argv)
                         //optumumCycleTime = dataset2[k].optimum[0];
                     }
                 }
+            if(choice != "N"){
             if (!found){
                 cout<<"There no values for the selected benchmark in the dataset: "<<benchmarks[benchmarkChoice+2]<<endl;
                 cout<<endl;
@@ -286,7 +291,7 @@ int main(int argc, char**argv)
                 if(shallContinue=="N"){break;}else{continue;}
             
             }
-                
+     }   
                // cout<<"Stations #: "<<m;      
                 
                     
@@ -509,10 +514,16 @@ int main(int argc, char**argv)
           }
              myfile<<endl;
              cout<<endl;
+             stationAlocationFile<<"Benchmark:"<<benchmarks[benchmarkChoice+2]<<"\tGiven m:"<<m<<endl<<endl;
+             stationAlocationFile<<"Task Allocation in Stations:\n\n";
+             s.printStations(stationAlocationFile);
+             stationAlocationFile<<endl;
           }
     
     }
     myfile<<endl;
+
+    
     if(choice != "N"){
     string shallContinue;
     cout<<"\nShall we continue?(Y/N)"<<endl;
@@ -523,5 +534,6 @@ int main(int argc, char**argv)
     }while(true);
     
     myfile.close();
+    stationAlocationFile.close();
     return 8;
 }

@@ -10,6 +10,7 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <fstream>
 #include "station.h"
 #include "nodeGraph.h"
 #include <math.h>
@@ -52,6 +53,8 @@ public:
     void insertStation();
     bool pushTaskToStation(node*); 
     void printStations();
+    void printStations(std::ofstream& myfile);
+    
     void setPolicy(std::string);
     void initStations();
     void setMaxStations(int);

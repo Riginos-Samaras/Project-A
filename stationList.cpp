@@ -1,5 +1,6 @@
 #include "stationList.h"
 #include <time.h>
+
 using std::cout;
 using std::endl;
 stationList::stationList(){
@@ -73,6 +74,14 @@ bool stationList::pushTaskToStation(node *nd){
          stations[i].printTasks();
      }
  }
+  void stationList::printStations(std::ofstream& myfile){
+     for(int i=0; i<stations.size();i++){
+         cout<<"Station["<<i<<"]:";
+         myfile<<"Station["<<i<<"]:";
+         stations[i].printTasks(myfile);
+     }
+ }
+ 
  
     void stationList::setMaxStations(int smax){
         m=smax;
