@@ -60,20 +60,45 @@ int main(int argc, char**argv)
     
     ofstream myfile;
     ofstream stationAlocationFile;
+    ofstream statisticsFile;
+    
+    int timesOptimum=0;
+
+    int totalIterations=0;
+    double averDev=0;
+    double averBD=0;
+    double averSX=0;
     
     if(Algorithm==1)
     {
-        stationAlocationFile.open("outputs/ALBP1/"+policies[policyChoice-1]+"_Station_Alocation.txt");
+        stationAlocationFile.open("outputs/ALBP1/"+policies[policyChoice-1]+"_Station_Allocation.txt");
+        
         myfile.open ("outputs/ALBP1/"+policies[policyChoice-1]+".txt");
         myfile << "----------------------------------------------------------------------------------------------------------------------------\n";
         myfile<<"Problem\t\tn\tc\tm\tm*\tabs.dev \t%dev \t\tBD \t\tSX\t\tCPU time(sec)"<<endl;
         myfile << "----------------------------------------------------------------------------------------------------------------------------\n";
         
+        if (!(std::ifstream("outputs/ALBP1/ALBP1_Statistics.txt")))
+            {
+               
+                statisticsFile.open("outputs/ALBP1/ALBP1_Statistics.txt");
+                statisticsFile << "----------------------------------------------------------------------------------------------------------------------------\n";
+                statisticsFile<<"Policy\t\tNo. m=m*\t\taver %dev\t\taver BD\t\taver SX"<<endl;
+                statisticsFile << "----------------------------------------------------------------------------------------------------------------------------\n";
+        
+               
+            }
+        else
+        {
+            statisticsFile.open("outputs/ALBP1/ALBP1_Statistics.txt", std::ofstream::out | std::ofstream::app);
+        
+        }
     
     }
         if(Algorithm==2)
     {
-        stationAlocationFile.open ("outputs/ALBP2/"+policies[policyChoice-1]+"_Station_Alocation.txt");
+        stationAlocationFile.open ("outputs/ALBP2/"+policies[policyChoice-1]+"_Station_Allocation.txt");
+        
         myfile.open ("outputs/ALBP2/"+policies[policyChoice-1]+".txt");
         myfile << "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n\n";
         myfile << "\t\t\t\t\t\t\t\tLower Bound\t\t\t\t\tUpper Bound\t\t\t\t\tBinary Search"<<endl;
@@ -81,6 +106,21 @@ int main(int argc, char**argv)
         myfile << "Problem\t\tn\tm\tc*\t\tc\t%dev\tBD\tSX\tCPU(time)\t\tc\t%dev\tBD\tSX\tCPU(time)\t\tc\t%dev\tBD\tSX\tCPU(time)"<<endl<<endl;
         myfile << "-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n";
         
+                if (!(std::ifstream("outputs/ALBP2/ALBP2_Statistics.txt")))
+            {
+               
+                statisticsFile.open("outputs/ALBP2/ALBP2_Statistics.txt");
+                statisticsFile << "----------------------------------------------------------------------------------------------------------------------------\n";
+                statisticsFile<<"Policy\t\tNo. c=c*\t\taver %dev\t\taver BD\t\taver SX"<<endl;
+                statisticsFile << "----------------------------------------------------------------------------------------------------------------------------\n";
+        
+               
+            }
+        else
+        {
+            statisticsFile.open("outputs/ALBP1/ALBP1_Statistics.txt", std::ofstream::out | std::ofstream::app);
+        
+        }
     
     }
     
@@ -88,7 +128,7 @@ int main(int argc, char**argv)
     std::string choice;
     int p=0;
     int benchmarkChoice=-1;
-    cout<<"Would you like to manually select policies?(Y)/(N)"<<endl;
+    cout<<"Would you like to manually select benchmarks?(Y)/(N)"<<endl;
     cout<<"Choice: ";cin>>choice;
    
     do{ //The big loop that asks as if we want to continue
@@ -198,8 +238,8 @@ int main(int argc, char**argv)
         s.setCycleTime(cycleTime);
 
         if(j==0){
-        cout<<benchmarks[benchmarkChoice+2]<<"\t"<<datasetSize;
-        myfile<<benchmarks[benchmarkChoice+2]<<"\t"<<datasetSize;
+        cout<<benchmarks[benchmarkChoice+2]<<setw(4)<<"\t"<<datasetSize;
+        myfile<<benchmarks[benchmarkChoice+2]<<setw(4)<<"\t"<<datasetSize;
         }
         else{
             cout<<"\t\t";
@@ -251,6 +291,13 @@ int main(int argc, char**argv)
                     stationAlocationFile<<"Task Allocation in Stations:\n\n";
                     s.printStations(stationAlocationFile);
                     stationAlocationFile<<endl;
+                    
+                    if(s.getStationList().size()==optimumStations)
+                        timesOptimum++;
+                    totalIterations++;
+                    averDev=+double(((((float)s.getStationList().size()-(float)optimumStations)/(float)optimumStations)*100));
+                    averBD=+double(s.findBT());
+                    averSX=+(double)s.findSX();
                 }
     }
 
@@ -281,17 +328,20 @@ int main(int argc, char**argv)
                         //optumumCycleTime = dataset2[k].optimum[0];
                     }
                 }
-            if(choice != "N"){
+            
             if (!found){
+                if(choice == "N"){continue;}
+                else{
+                
                 cout<<"There no values for the selected benchmark in the dataset: "<<benchmarks[benchmarkChoice+2]<<endl;
                 cout<<endl;
                 string shallContinue;
                 cout<<"Shall we continue?(Y/N)"<<endl;
                 cin>>shallContinue; 
                 if(shallContinue=="N"){break;}else{continue;}
-            
+                }
             }
-     }   
+     
                // cout<<"Stations #: "<<m;      
                 
                     
@@ -518,6 +568,13 @@ int main(int argc, char**argv)
              stationAlocationFile<<"Task Allocation in Stations:\n\n";
              s.printStations(stationAlocationFile);
              stationAlocationFile<<endl;
+             
+             if(s.getCycleTime()==optumumCycleTime)
+                 timesOptimum++;
+             totalIterations++;
+             averDev=+double(((((float)s.getStationList().size()-(float)optimumStations)/(float)optimumStations)*100));
+             averBD=+double(s.findBT());
+             averSX=+(double)s.findSX();
           }
     
     }
@@ -532,7 +589,8 @@ int main(int argc, char**argv)
     }
    
     }while(true);
-    
+    statisticsFile<<policies[policyChoice-1]<<"\t\t"<<timesOptimum<<"\t\t\t"<<averDev/totalIterations<<"\t\t"<<averBD/totalIterations<<"\t\t"<<averSX/totalIterations<<endl;
+    statisticsFile.close();
     myfile.close();
     stationAlocationFile.close();
     return 8;

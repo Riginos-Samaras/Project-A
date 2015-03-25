@@ -1,8 +1,0 @@
-Benchmark:MERTENS.IN2	Given m:7
-
-Task Allocation in Stations:
-
-Station[0]:1->2
-Station[1]:5
-Station[2]:6
-
