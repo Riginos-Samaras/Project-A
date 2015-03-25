@@ -1,7 +1,7 @@
 
 Preced.	m 
 graph (given)   c* or [LB,UB]
------------------------
+-------------------- ---
 Buxey	7	47
 Buxey	8	41
 Buxey	9	37
@@ -120,15 +120,15 @@ Arcus2	14	10747
 Arcus2	15	10035
 Arcus2	16	9412
 Arcus2	17	8855
-Arcus2	18	8377
-Arcus2	19	7928
-Arcus2	20	7526
-Arcus2	21	7188
-Arcus2	22	6859
-Arcus2	23	6561
-Arcus2	24	6289
-Arcus2	25	6106
-Arcus2	26	5856
+Arcus2	18	8376
+Arcus2	19	7920
+Arcus2	20	7520
+Arcus2	21	7181
+Arcus2	22	6839
+Arcus2	23	6551
+Arcus2	24	6273
+Arcus2	25	6085
+Arcus2	26	5844
 Arcus2	27	5689
 Hahn	3	4787
 Hahn	4	3677
@@ -180,17 +180,17 @@ Wee-Mag	14	108
 Wee-Mag	15	100
 Wee-Mag	16	94
 Wee-Mag	17	89
-Wee-Mag	18	87
-Wee-Mag	19	85
+Wee-Mag	18	84
+Wee-Mag	19	84
 Wee-Mag	20	77
 Wee-Mag	21	72
 Wee-Mag	22	69
-Wee-Mag	23	67
+Wee-Mag	23	66
 Wee-Mag	24	66
 Wee-Mag	25	66
 Wee-Mag	26	65
-Wee-Mag	27	65
-Wee-Mag	28	64
+Wee-Mag	27	63
+Wee-Mag	28	63
 Wee-Mag	29	63
 Wee-Mag	30	56
 Lutz3	3	548
@@ -300,7 +300,7 @@ Scholl	45	1549
 Scholl	46	1515
 Scholl	47	1483
 Scholl	48	1452
-Scholl	49	1427
+Scholl	49	1423
 Scholl	50	1394
 Scholl	51	1386
 Scholl	52	1386

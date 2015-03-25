@@ -265,7 +265,7 @@ Wee-mag	42	55
 Wee-mag	43	50
 Wee-mag	45	38
 Wee-mag	46	34
-Wee-mag	47	[32,33]
+Wee-mag	47	32
 Wee-mag	49	32
 Wee-mag	50	32
 Wee-mag	52	31

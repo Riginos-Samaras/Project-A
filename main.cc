@@ -395,9 +395,8 @@ int main(int argc, char**argv)
              midc=(LB+UB)/2;
              minc=LB;
              maxc=UB; 
-             
           if(policyChoice<8){
-              s.setPolicy(policies[policyChoice]);
+              s.setPolicy(policies[policyChoice-1]);
               for(int j=0; j<3; j++){
                    std::chrono::time_point<std::chrono::system_clock> start, end;
                    start = std::chrono::system_clock::now();
@@ -535,7 +534,7 @@ int main(int argc, char**argv)
                  s.setAvailableStations(m);
                  s.VNSpolicy(); 
                  LB=LB+1;
-              }while(s.getStationList().size()!=m);
+              }while(s.getStationList().size()>m);
               end = std::chrono::system_clock::now();
              std::chrono::duration<double> elapsed_seconds = end-start;
               //cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tm\tc\tc*\n--------------------------"<<endl; 
@@ -548,6 +547,7 @@ int main(int argc, char**argv)
           }
           else if(policyChoice==9){    
               do{
+                    cout<<" LB:"<<LB<<" m*:"<<m<<" m:"<<s.getStationList().size()<<endl;
                     s.initStations();
                     s.x.initDone();
                     s.setCycleTime(LB); 
@@ -555,7 +555,7 @@ int main(int argc, char**argv)
                     s.setAvailableStations(m);
                     s.Heuristicpolicy(); 
                    LB=LB+1; 
-              }while(s.getStationList().size()!=m);           
+              }while(s.getStationList().size()>m);           
             // cout<<"Problems and optimal solutions\nPreced.\t\t\ngraph\t\tm\tc\tc*\n--------------------------"<<endl; 
              cout<<"\t\t"<<s.getCycleTime();
              myfile<<"\t\t"<<s.getCycleTime();
